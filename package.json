@@ -10,6 +10,10 @@
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls ",
     "build": "babel server -d build"
   },
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.10.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BurnerB/FreeMentors-V2.git"
