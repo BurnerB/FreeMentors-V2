@@ -42,6 +42,25 @@ class Authentication {
       return response.catchError(500, e.message, res);
     }
   }
+
+  static async userLogin(req, res) {
+    try {
+      const { email, password } = req.body;
+      const user = await UserModel.findByEmail(email);
+
+      if (user) {
+        // console.log(user);
+        if (bcrypt.compareSync(password, user.password)) {
+          const token = Token.genToken(user);
+          return response.authsuccess(200, 'User is successfully logged in', { token }, res);
+        }
+        return response.handleError(401, 'Incorrect password Email combination', res);
+      }
+      return response.handleError(400, 'Email not found, sign up to create an account', res);
+    } catch (e) {
+      return response.catchError(500, e.toString(), res);
+    }
+  }
 }
 
 
