@@ -37,6 +37,14 @@ class UserModel {
     }
     return false;
   }
+
+  static async findByEmail(email) {
+    const obj = db.find((o) => o.email === email);
+    if (!obj) {
+      return false;
+    }
+    return obj;
+  }
 }
 
 export default UserModel;
