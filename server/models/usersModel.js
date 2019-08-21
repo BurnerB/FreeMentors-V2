@@ -1,4 +1,5 @@
 import db from '../db/users';
+import mentors from '../db/mentor';
 
 class UserModel {
   constructor(firstName, lastName, email, password, address, bio, occupation, expertise) {
@@ -59,7 +60,7 @@ class UserModel {
     if (!obj) {
       return false;
     }
-    
+
     const mentor = {
       userId: obj.userId,
       firstName: obj.firstName,
@@ -74,7 +75,15 @@ class UserModel {
       isAdmin: false,
     };
     db.splice(obj.userId - 1, 1, mentor);
+    mentors.push(mentor);
     return mentor;
+  }
+
+  static getAllMentors() {
+    if (mentors.length === 0) {
+      return false;
+    }
+    return mentors;
   }
 }
 
