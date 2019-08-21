@@ -31,11 +31,13 @@ class Authentication {
         expertise,
       );
 
-      // console.log(newUser);
-      if (!await newUser.registerUser()) {
+      // const modifiedUser = (JSON.parse(JSON.stringify(newUser)));
+      const registeredUser = await newUser.registerUser();
+      // console.log(registeredUser);
+      if (!registeredUser) {
         return response.handleError(409, 'The email has already been used to register', res);
       }
-      const token = Token.genToken(newUser);
+      const token = await Token.genToken(registeredUser);
       // console.log(token);
       return response.authsuccess(201, 'User created successfully', { token }, res);
     } catch (e) {
@@ -56,7 +58,7 @@ class Authentication {
         }
         return response.handleError(401, 'Incorrect password Email combination', res);
       }
-      return response.handleError(400, 'Email not found, sign up to create an account', res);
+      return response.handleError(404, 'Email not found, sign up to create an account', res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
