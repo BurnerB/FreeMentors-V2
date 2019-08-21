@@ -58,7 +58,7 @@ class Validations {
         email: Joi.string().trim().email({ minDomainSegments: 2 }).required()
           .error(() => 'Email is a required field and must be valid'),
         password: Joi.string().trim().min(5).max(15)
-.alphanum()
+          .alphanum()
           .required()
           .error(() => 'Password is a required field with a min of 5 chars and no special chars'),
       };
