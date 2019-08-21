@@ -3,6 +3,7 @@ import express from 'express';
 import '@babel/polyfill';
 import bodyParser from 'body-parser';
 import userRoutes from './server/routes/userRoutes';
+import AdminRoutes from './server/routes/adminRoutes';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/api/v1', userRoutes);
+app.use('/api/v1', AdminRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'hello world!! Your app is working' });
