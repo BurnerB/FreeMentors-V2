@@ -308,7 +308,7 @@ describe('AUTH', () => {
           password: 'password123',
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(404);
           expect(res.body.error).equals('Email not found, sign up to create an account');
           if (err) return done();
           done();
