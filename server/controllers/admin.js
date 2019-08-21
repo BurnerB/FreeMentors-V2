@@ -12,7 +12,7 @@ class Admin {
         return response.handleError(404, 'User with that Id not found', res);
       }
       // console.log(user);
-      return response.success(200, {message:'User account changed to mentor'}, res);
+      return response.success(200, { message: 'User account changed to mentor' }, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
