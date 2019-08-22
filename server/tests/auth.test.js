@@ -7,6 +7,19 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('AUTH', () => {
+  describe ('test app',()=>{
+    it('should successfully test app', (done) => {
+      chai.request(app)
+        .get('/')
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res).to.be.an('object');
+          expect(res.body.message).equals('hello world!! Your app is working');
+          if (err) return done();
+          done();
+        });
+    });
+  })
   describe('/post signup', () => {
     it('should successfully sign up a user', (done) => {
       chai.request(app)
