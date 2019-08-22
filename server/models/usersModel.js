@@ -1,5 +1,4 @@
 import db from '../db/users';
-import mentors from '../db/mentor';
 
 class UserModel {
   constructor(firstName, lastName, email, password, address, bio, occupation, expertise) {
@@ -46,44 +45,12 @@ class UserModel {
     return obj;
   }
 
-  static async findById(userId) {
-    const obj = db.find((o) => o.userId === userId);
+  static async findById(userId) { 
+    const obj = db.find((o) => o.userId === parseInt(userId));
     if (!obj) {
       return false;
     }
     return obj;
-  }
-
-  static async makeMentor(userId) {
-    const obj = db.find((o) => o.userId === parseInt(userId));
-    // console.log(obj);
-    if (!obj) {
-      return false;
-    }
-
-    const mentor = {
-      userId: obj.userId,
-      firstName: obj.firstName,
-      lastName: obj.lastName,
-      email: obj.email,
-      password: obj.password,
-      address: obj.address,
-      bio: obj.bio,
-      occupation: obj.occupation,
-      expertise: obj.expertise,
-      isMentor: true,
-      isAdmin: false,
-    };
-    db.splice(obj.userId - 1, 1, mentor);
-    mentors.push(mentor);
-    return mentor;
-  }
-
-  static getAllMentors() {
-    if (mentors.length === 0) {
-      return false;
-    }
-    return mentors;
   }
 }
 
