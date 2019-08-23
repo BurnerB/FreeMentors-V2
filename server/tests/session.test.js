@@ -183,4 +183,84 @@ describe('SESSION', () => {
         });
     });
   });
+
+  describe('PATCH accept session',()=>{
+    it('should successfully accept a session', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/:sessionId/accept')
+        .set('authorization', `Bearer ${mentorToken}`)
+        .end((err, res) => {
+          res.should.have.status(201);
+          expect(res.body.data.status).equals('accepted');
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully accept a session if token is user', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/:sessionId/accept')
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          res.should.have.status(403);
+          expect(res.body.data.error).equals('not a mentor');
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully accept a session if no token provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/:sessionId/accept')
+        .set('authorization', ` `)
+        .end((err, res) => {
+          res.should.have.status(401);
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+  })
+
+  describe('PATCH reject session',()=>{
+    it('should successfully accept a session', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/:sessionId/reject')
+        .set('authorization', `Bearer ${mentorToken}`)
+        .end((err, res) => {
+          res.should.have.status(201);
+          expect(res.body.data.status).equals('rejected');
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully accept a session if token is user', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/:sessionId/reject')
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          res.should.have.status(403);
+          expect(res.body.data.error).equals('not a mentor');
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully accept a session if no token provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/:sessionId/reject')
+        .set('authorization', ` `)
+        .end((err, res) => {
+          res.should.have.status(401);
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+  })
 });
