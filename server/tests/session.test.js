@@ -71,8 +71,8 @@ describe('SESSION', () => {
   describe('/POST session', () => {
     it('should successfully request a session', (done) => {
       chai.request(app)
-        .post('/sessions')
-        .set('authorization', `${userToken}`)
+        .post('/api/v1/sessions')
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           mentorId: 1,
           questions: 'I wanna be a dj,Help?',
@@ -87,8 +87,8 @@ describe('SESSION', () => {
 
     it('should successfully request a session with mentor token', (done) => {
       chai.request(app)
-        .post('/sessions')
-        .set('authorization', `${userToken}`)
+        .post('/api/v1/sessions')
+        .set('authorization', `Bearer ${mentorToken}`)
         .send({
           mentorId: 1,
           questions: 'I wanna be a dj,Help?',
@@ -103,8 +103,8 @@ describe('SESSION', () => {
 
     it('should successfully request a session with Admin token', (done) => {
       chai.request(app)
-        .post('/sessions')
-        .set('authorization', `${userToken}`)
+        .post('/api/v1/sessions')
+        .set('authorization', `Bearer ${adminToken}`)
         .send({
           mentorId: 1,
           questions: 'I wanna be a dj,Help?',
@@ -119,14 +119,64 @@ describe('SESSION', () => {
 
     it('should unsuccessfully request a session without token', (done) => {
       chai.request(app)
-        .post('/sessions')
-        .set('authorization', ' ')
+        .post('/api/v1/sessions')
+        .set('authorization', ` `)
+        .send({
+          mentorId: 2,
+          questions: 'I wanna be a dj,Help?',
+        })
+        .end((err, res) => {
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
+          res.should.have.status(401);
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully request a session invalid id', (done) => {
+      chai.request(app)
+        .post('/api/v1/sessions')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          mentorId: 'ab',
+          questions: 'I wanna be a dj,Help?',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully request a session invalid questions', (done) => {
+      chai.request(app)
+        .post('/api/v1/sessions')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          mentorId: 'ab',
+          questions: ' ',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully request a session already requested', (done) => {
+      chai.request(app)
+        .post('/api/v1/sessions')
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           mentorId: 1,
           questions: 'I wanna be a dj,Help?',
         })
         .end((err, res) => {
-          res.should.have.status(201);
+          expect(res.body.error).equals('Session already requested with this mentor');
+          res.should.have.status(400);
           expect(res).to.be.an('object');
           if (err) return done();
           done();
