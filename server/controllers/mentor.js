@@ -10,7 +10,11 @@ class Mentor {
       if (!mentors) {
         return response.handleError(404, 'No Mentors found', res);
       }
+
       // console.log(user);
+      mentors.forEach((mentor) => {
+        delete mentor.password;
+      });
       return response.success(200, mentors, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
@@ -21,12 +25,12 @@ class Mentor {
     try {
       const { mentorId } = req.params;
       const mentor = await MentorModel.findById(mentorId);
-      
+
       if (!mentor) {
         return response.handleError(404, 'No Mentor with that ID found', res);
       }
-      // console.log(user);
-      return response.success(200, mentor, res);
+      const { password, ...noA } = mentor;
+      return response.success(200, noA, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
