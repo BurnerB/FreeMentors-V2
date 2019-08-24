@@ -45,6 +45,9 @@ class SessionModel {
   }
 
   static async acceptSession(session) {
+    if (session.status !== 'pending') {
+      return [false, session];
+    }
     const accepted = {
       sessionId: session.sessionId,
       mentorId: session.mentorId,
@@ -58,6 +61,9 @@ class SessionModel {
   }
 
   static async rejectSession(session) {
+    if (session.status !== 'pending') {
+      return [false, session];
+    }
     const rejected = {
       sessionId: session.sessionId,
       mentorId: session.mentorId,
@@ -68,6 +74,22 @@ class SessionModel {
     };
     db.splice(session.sessionId - 1, 1, rejected);
     return rejected;
+  }
+
+  static async getUserSessions(menteeId) {
+    const obj = db.filter((o) => o.menteeId === parseInt(menteeId));
+    if (!obj) {
+      return false;
+    }
+    return obj;
+  }
+
+  static async getMentorSessions(mentorId) {
+    const obj = db.filter((o) => o.mentorId === parseInt(mentorId));
+    if (!obj) {
+      return false;
+    }
+    return obj;
   }
 }
 export default SessionModel;
