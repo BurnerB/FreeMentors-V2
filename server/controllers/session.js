@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import response from '../helpers/responses';
 import SessionModel from '../models/sessionModel';
 import MentorModel from '../models/mentorModel';
@@ -39,11 +40,41 @@ class Sessions {
       }
       if (/accept/.test(req.url)) {
         const accepted = await SessionModel.acceptSession(sessionExist);
+        if (accepted[0] === false) {
+          return response.handleError(400, `Session already ${accepted[1].status}`, res);
+        }
         return response.success(200, accepted, res);
       }
       if (/reject/.test(req.url)) {
         const rejected = await SessionModel.rejectSession(sessionExist);
+        if (rejected[0] === false) {
+          return response.handleError(400, `Session already ${rejected[1].status}`, res);
+        }
         return response.success(200, rejected, res);
+      }
+    } catch (e) {
+      return response.catchError(500, e.message, res);
+    }
+  }
+
+  static async getallSessions(req, res) {
+    try {
+      const decoded = decoder.decodeToken(req.headers.authorization);
+      const { userId, isMentor } = decoded;
+      // console.log(decoded);
+      if (isMentor === false) {
+        const sessions = await SessionModel.getUserSessions(userId);
+        if (!sessions) {
+          return response.handleError(404, 'You have no requested sessions', res);
+        }
+        return response.success(200, sessions, res);
+      }
+      if (isMentor === true) {
+        const sessions = await SessionModel.getMentorSessions(userId);
+        if (!sessions) {
+          return response.handleError(404, 'You have no sessions requested', res);
+        }
+        return response.success(200, sessions, res);
       }
     } catch (e) {
       return response.catchError(500, e.message, res);
