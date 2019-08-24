@@ -25,5 +25,29 @@ class Sessions {
       return response.catchError(500, e.message, res);
     }
   }
+
+  static async chooseSession(req, res) {
+    try {
+      const { sessionId } = req.params;
+      const decoded = decoder.decodeToken(req.headers.authorization);
+      const { userId } = decoded;
+
+      const sessionExist = await SessionModel.wasRequested(sessionId, userId);
+      // console.log(sessionExist);
+      if (!sessionExist) {
+        return response.handleError(404, 'You have no requested session with that ID', res);
+      }
+      if (/accept/.test(req.url)) {
+        const accepted = await SessionModel.acceptSession(sessionExist);
+        return response.success(200, accepted, res);
+      }
+      if (/reject/.test(req.url)) {
+        const rejected = await SessionModel.rejectSession(sessionExist);
+        return response.success(200, rejected, res);
+      }
+    } catch (e) {
+      return response.catchError(500, e.message, res);
+    }
+  }
 }
 export default Sessions;
