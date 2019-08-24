@@ -7,7 +7,7 @@ import sessionRoutes from './server/routes/sessionRoutes';
 import AdminRoutes from './server/routes/adminRoutes';
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 dotenv.config();
 
