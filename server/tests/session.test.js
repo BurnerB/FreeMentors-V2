@@ -225,6 +225,46 @@ describe('SESSION', () => {
     });
   });
 
+  describe('PATCH reject session', () => {
+    it("shouldn't reject a session already accepted", (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/1/reject')
+        .set('authorization', `Bearer ${mentorToken}`)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Session already accepted');
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully reject a session if token is user', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/1/accept')
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          res.should.have.status(403);
+          expect(res.body.error).equals('ACCESS DENIED! Not a Mentor');
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should unsuccessfully reject a session if no token provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/sessions/1/accept')
+        .set('authorization', ' ')
+        .end((err, res) => {
+          res.should.have.status(401);
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+  });
+
   describe('GET sessions', () => {
     it('should get all sessions', (done) => {
       chai.request(app)
@@ -232,8 +272,7 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${mentorToken}`)
         .end((err, res) => {
           res.should.have.status(200);
-          // expect(res.body.data.status).equals('rejected');
-          expect(res).to.be.an('array');
+          expect(res.body.data).to.be.an('array');
           if (err) return done();
           done();
         });
