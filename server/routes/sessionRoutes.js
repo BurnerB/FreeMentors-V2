@@ -10,6 +10,7 @@ const router = express.Router();
 router.post('/sessions', authToken, Validations.validateSessions, Sessions.requestSession);
 router.patch('/sessions/:sessionId/accept', [authToken, Mentor], Sessions.chooseSession);
 router.patch('/sessions/:sessionId/reject', [authToken, Mentor], Sessions.chooseSession);
+router.get('/sessions', [authToken], Sessions.getallSessions);
 
 
 export default router;
