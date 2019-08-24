@@ -11,8 +11,8 @@ class UserModel {
     this.bio = bio;
     this.occupation = occupation;
     this.expertise = expertise;
-    this.is_Mentor = false;
-    this.is_Admin = false;
+    this.isMentor = false;
+    this.isAdmin = false;
   }
 
   async registerUser() {
@@ -26,8 +26,8 @@ class UserModel {
       bio: this.bio,
       occupation: this.occupation,
       expertise: this.expertise,
-      is_Mentor: this.is_Mentor,
-      is_Admin: this.is_Admin,
+      isMentor: this.isMentor,
+      isAdmin: this.isAdmin,
     };
     const obj = db.find((o) => o.email === this.email);
     if (!obj) {
