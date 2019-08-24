@@ -10,7 +10,7 @@ class SessionModel {
     this.status = 'pending';
   }
 
-  requestSession() {
+  async requestSession() {
     const session = {
       sessionId: this.sessionId,
       mentorId: this.mentorId,
@@ -26,6 +26,48 @@ class SessionModel {
       return session;
     }
     return false;
+  }
+
+  static async findById(sessionId) {
+    const obj = db.find((o) => o.sessionId === parseInt(sessionId));
+    if (!obj) {
+      return false;
+    }
+    return obj;
+  }
+
+  static async wasRequested(sessionId, mentorId) {
+    const obj = db.find((o) => o.sessionId === parseInt(sessionId) && o.mentorId === parseInt(mentorId));
+    if (!obj) {
+      return false;
+    }
+    return obj;
+  }
+
+  static async acceptSession(session) {
+    const accepted = {
+      sessionId: session.sessionId,
+      mentorId: session.mentorId,
+      menteeId: session.menteeId,
+      questions: session.questions,
+      menteeEmail: session.menteeEmail,
+      status: 'accepted',
+    };
+    db.splice(session.sessionId - 1, 1, accepted);
+    return accepted;
+  }
+
+  static async rejectSession(session) {
+    const rejected = {
+      sessionId: session.sessionId,
+      mentorId: session.mentorId,
+      menteeId: session.menteeId,
+      questions: session.questions,
+      menteeEmail: session.menteeEmail,
+      status: 'rejected',
+    };
+    db.splice(session.sessionId - 1, 1, rejected);
+    return rejected;
   }
 }
 export default SessionModel;
