@@ -1,0 +1,395 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "2.0",
+		"title": "FreeMentors V1",
+		"description": "Free Mentors where professionals become role models to young people to provide free mentorship sessions.",
+		"contact": {
+			"email": "barnabykamau@gmail.com"
+		}
+	},
+	"host": "free-mentors.herokuapp.com",
+	"basePath": "/api/v1",
+	"securityDefinitions": {},
+	"schemes": [
+		"https"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+		"application/json"
+	],
+	"paths": {
+		"/auth/signup": {
+			"post": {
+				"description": "",
+				"summary": "signup",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "SignupPost",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+						"name": "firstname",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "lastname",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "email",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "password",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "address",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "bio",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "occupation",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "expertise",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Invalid input details"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/auth/signin": {
+			"post": {
+				"description": "",
+				"summary": "Signin",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "LoginPost",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+						"name": "email",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					},
+					{
+						"name": "password",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/user/:userId": {
+			"patch": {
+				"description": "",
+				"summary": "Change a user to a mentor.",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "Admin make user mentor",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"default": "Bearer {}",
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured or invalid input details"
+					},
+					"404": {
+						"description": "not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/mentors": {
+			"get": {
+				"description": "",
+				"summary": "Admin get all mentors",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "mentors",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"default": "Bearer {}",
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/mentors/:mentorId": {
+			"get": {
+				"description": "",
+				"summary": "Admin get specific mentor",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "specific mentor",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"default": "Bearer {}",
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/sessions": {
+			"post": {
+				"description": "",
+				"summary": "User can Create a mentorship session request.",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "session request",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+						"name": "Authorization",
+						"in": "header",
+						"default": "Bearer {}",
+						"type": "string"
+					},
+					{
+						"name": "mentorId",
+						"in": "formData",
+						"type": "integer",
+						"description": ""
+					},
+					{
+						"name": "questions",
+						"in": "formData",
+						"type": "string",
+						"description": ""
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured or invalid input details"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			},
+			"get": {
+				"description": "",
+				"summary": "Get all sessions.",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "get all sessions",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"default": "Bearer {}",
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured or invalid input details"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/sessions/:sessionId/accept": {
+			"patch": {
+				"description": "",
+				"summary": "A mentor can accept a mentorship session request.",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "accept request",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"default": "Bearer {}",
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured or invalid input details"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/sessions/:sessionId/decline": {
+			"patch": {
+				"description": "",
+				"summary": "A mentor can decline a mentorship session request.",
+				"tags": [
+					"Free Mentors V1"
+				],
+				"operationId": "decline request",
+				"deprecated": false,
+				"produces": [
+					"application/json"
+				],
+				"consumes": [
+					"application/x-www-form-urlencoded"
+				],
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"default": "Bearer {}",
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Valid Token required since  API endpoint secured or invalid input details"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		}
+	}
+}
