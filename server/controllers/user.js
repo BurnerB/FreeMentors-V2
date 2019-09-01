@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import UserModel from '../models/usersModel';
+import { UserModel } from '../models/usersModel';
 import response from '../helpers/responses';
 import Token from '../helpers/tokenGen';
 
@@ -19,6 +19,7 @@ class Authentication {
 
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
+      
 
       const newUser = new UserModel(
         firstName,
