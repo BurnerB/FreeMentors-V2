@@ -88,9 +88,30 @@ describe('ADMIN', () => {
   });
 
   describe('/patch user to mentor', () => {
+    it('should successfully sign up a user', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'johndoe3@email.com',
+          password: 'password123',
+          address: 'Nairobi Kenya',
+          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
+          occupation: 'Musician',
+          expertise: 'rapping',
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          expect(res).to.be.an('object');
+          expect(res.body.message).equals('User created successfully');
+          if (err) return done();
+          done();
+        });
+    });
     it('Admin should successfully make user into mentor', (done) => {
       chai.request(app)
-        .patch('/api/v1/user/1')
+        .patch('/api/v1/user/3')
         .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           res.should.have.status(200);
