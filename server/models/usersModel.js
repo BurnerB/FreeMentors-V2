@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import db from '../db/users';
 
 class UserModel {
@@ -45,7 +46,7 @@ class UserModel {
     return obj;
   }
 
-  static async findById(userId) { 
+  static async findById(userId) {
     const obj = db.find((o) => o.userId === parseInt(userId));
     if (!obj) {
       return false;
@@ -54,4 +55,41 @@ class UserModel {
   }
 }
 
-export default UserModel;
+class MentorModel extends UserModel {
+  static async getAllMentors() {
+    const obj = db.filter((o) => o.isMentor === true && o.isAdmin === false);
+    if (!obj) {
+      return false;
+    }
+    return obj;
+  }
+}
+class AdminModel extends MentorModel {
+  static async makeMentor(user) {
+    const mentor = {
+      userId: user.userId,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password,
+      address: user.address,
+      bio: user.bio,
+      occupation: user.occupation,
+      expertise: user.expertise,
+      isMentor: true,
+      isAdmin: false,
+    };
+    db.splice(user.userId - 1, 1, mentor);
+    return mentor;
+  }
+
+
+  static async isalreadyMentor(userId) {
+    const obj = db.find((o) => o.isMentor === true && o.userId === parseInt(userId));   
+    if (obj) {
+      return true;
+    }
+    return false;
+  }
+}
+export { AdminModel, MentorModel, UserModel };
