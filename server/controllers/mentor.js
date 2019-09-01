@@ -1,17 +1,15 @@
 import response from '../helpers/responses';
-import MentorModel from '../models/mentorModel';
+import { MentorModel } from '../models/usersModel';
 
 
 class Mentor {
   static async getAllMentors(req, res) {
     try {
       const mentors = await MentorModel.getAllMentors();
-      // console.log(user);
       if (!mentors) {
         return response.handleError(404, 'No Mentors found', res);
       }
 
-      // console.log(user);
       mentors.forEach((mentor) => {
         delete mentor.password;
       });

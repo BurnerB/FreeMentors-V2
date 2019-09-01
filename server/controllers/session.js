@@ -1,7 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 import response from '../helpers/responses';
 import SessionModel from '../models/sessionModel';
-import MentorModel from '../models/mentorModel';
+import { MentorModel } from '../models/usersModel';
 import decoder from '../helpers/decodeToken';
 
 class Sessions {
@@ -9,14 +10,13 @@ class Sessions {
     try {
       const { mentorId, questions } = req.body;
 
-      // console.log(questions);
       if (!await MentorModel.findById(mentorId)) {
         return response.handleError(404, 'No Mentor with that ID found', res);
       }
       const decoded = decoder.decodeToken(req.headers.authorization);
       const { userId, email } = decoded;
       const newSession = new SessionModel(parseInt(mentorId), userId, questions, email);
-      // console.log(newSession);
+
       const session = await newSession.requestSession();
       if (!session) {
         return response.handleError(400, 'Session already requested with this mentor', res);
@@ -34,7 +34,7 @@ class Sessions {
       const { userId } = decoded;
 
       const sessionExist = await SessionModel.wasRequested(sessionId, userId);
-      // console.log(sessionExist);
+      
       if (!sessionExist) {
         return response.handleError(404, 'You have no requested session with that ID', res);
       }
@@ -61,7 +61,7 @@ class Sessions {
     try {
       const decoded = decoder.decodeToken(req.headers.authorization);
       const { userId, isMentor } = decoded;
-      // console.log(decoded);
+
       if (isMentor === false) {
         const sessions = await SessionModel.getUserSessions(userId);
         if (!sessions) {
