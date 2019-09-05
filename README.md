@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/BurnerB/FreeMentors-V2/badge.svg?branch=develop)](https://coveralls.io/github/BurnerB/FreeMentors-V2?branch=develop)
 
 Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions.
-![readme image](https://ibb.co/pz7pQPv)
+![](https://i.ibb.co/BZpRGPV/1.png)
 #### Endpoints covered
 | Method        | Endpoint                 | Description|
 | ------------- | --------------------------|------------|
