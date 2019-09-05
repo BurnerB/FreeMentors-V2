@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Token from './mocks/tokenMocks';
 import app from '../../app';
 
 dotenv.config();
@@ -16,55 +17,19 @@ let adminToken;
 
 describe('MENTOR', () => {
   before('generate JWT', (done) => {
-    userToken = jwt.sign({
-      userId: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'johndoe@email.com',
-      password: 'password123',
-      address: 'Nairobi Kenya',
-      bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-      occupation: 'Musician',
-      expertise: 'rapping',
-      isMentor: false,
-      isAdmin: false,
-    },
-    process.env.JWT_KEY, {
-      expiresIn: '100d',
-    });
-    
-    mentorToken = jwt.sign({
-      userId: 2,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: 'janedoe@email.com',
-      password: 'password123',
-      address: 'Nairobi Kenya',
-      bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-      occupation: 'Musician',
-      expertise: 'rapping',
-      isMentor: true,
-      isAdmin: false,
-    },
-    process.env.JWT_KEY, {
-      expiresIn: '100d',
-    });
-    adminToken = jwt.sign({
-      userId: 3,
-      firstName: 'Jack',
-      lastName: 'Doe',
-      email: 'jackdoe@email.com',
-      password: 'password123',
-      address: 'Nairobi Kenya',
-      bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-      occupation: 'Musician',
-      expertise: 'rapping',
-      isMentor: true,
-      isAdmin: true,
-    },
-    process.env.JWT_KEY, {
-      expiresIn: '100d',
-    });
+    userToken = jwt.sign(Token.userinfo,
+      process.env.JWT_KEY, {
+        expiresIn: '100d',
+      });
+
+    mentorToken = jwt.sign(Token.mentorinfo,
+      process.env.JWT_KEY, {
+        expiresIn: '100d',
+      });
+    adminToken = jwt.sign(Token.admininfo,
+      process.env.JWT_KEY, {
+        expiresIn: '100d',
+      });
     done();
   });
   describe('/get all mentors', () => {

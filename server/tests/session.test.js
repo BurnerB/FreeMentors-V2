@@ -3,6 +3,9 @@ import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import app from '../../app';
+import Token from './mocks/tokenMocks';
+import Session from './mocks/sessionMocks';
+
 
 dotenv.config();
 
@@ -16,56 +19,20 @@ let adminToken;
 
 describe('SESSION', () => {
   before('generate JWT', (done) => {
-    userToken = jwt.sign({
-      userId: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'johndoe@email.com',
-      password: 'password123',
-      address: 'Nairobi Kenya',
-      bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-      occupation: 'Musician',
-      expertise: 'rapping',
-      isMentor: false,
-      isAdmin: false,
-    },
-    process.env.JWT_KEY, {
-      expiresIn: '100d',
-    });
+    userToken = jwt.sign(Token.userinfo,
+      process.env.JWT_KEY, {
+        expiresIn: '100d',
+      });
 
-    mentorToken = jwt.sign({
-      userId: 2,
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: 'janedoe@email.com',
-      password: 'password123',
-      address: 'Nairobi Kenya',
-      bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-      occupation: 'Musician',
-      expertise: 'rapping',
-      isMentor: true,
-      isAdmin: false,
-    },
-    process.env.JWT_KEY, {
-      expiresIn: '100d',
-    });
+    mentorToken = jwt.sign(Token.mentorinfo,
+      process.env.JWT_KEY, {
+        expiresIn: '100d',
+      });
 
-    adminToken = jwt.sign({
-      userId: 3,
-      firstName: 'Jack',
-      lastName: 'Doe',
-      email: 'jackdoe@email.com',
-      password: 'password123',
-      address: 'Nairobi Kenya',
-      bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-      occupation: 'Musician',
-      expertise: 'rapping',
-      isMentor: true,
-      isAdmin: true,
-    },
-    process.env.JWT_KEY, {
-      expiresIn: '100d',
-    });
+    adminToken = jwt.sign(Token.admininfo,
+      process.env.JWT_KEY, {
+        expiresIn: '100d',
+      });
     done();
   });
   describe('/POST session', () => {
@@ -73,10 +40,7 @@ describe('SESSION', () => {
       chai.request(app)
         .post('/api/v1/sessions')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          mentorId: 2,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(Session.session1)
         .end((err, res) => {
           res.should.have.status(201);
           expect(res).to.be.an('object');
@@ -89,10 +53,7 @@ describe('SESSION', () => {
       chai.request(app)
         .post('/api/v1/sessions')
         .set('authorization', `Bearer ${mentorToken}`)
-        .send({
-          mentorId: 1,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(Session.session2)
         .end((err, res) => {
           res.should.have.status(201);
           expect(res).to.be.an('object');
@@ -105,10 +66,7 @@ describe('SESSION', () => {
       chai.request(app)
         .post('/api/v1/sessions')
         .set('authorization', `Bearer ${adminToken}`)
-        .send({
-          mentorId: 1,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(Session.session3)
         .end((err, res) => {
           res.should.have.status(201);
           expect(res).to.be.an('object');
@@ -121,12 +79,8 @@ describe('SESSION', () => {
       chai.request(app)
         .post('/api/v1/sessions')
         .set('authorization', ' ')
-        .send({
-          mentorId: 2,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(Session.session4)
         .end((err, res) => {
-          expect(res.body.error).equals('ACCESS DENIED! No token provided');
           res.should.have.status(401);
           expect(res).to.be.an('object');
           if (err) return done();
@@ -138,10 +92,7 @@ describe('SESSION', () => {
       chai.request(app)
         .post('/api/v1/sessions')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          mentorId: 'ab',
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(Session.session5)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -154,10 +105,7 @@ describe('SESSION', () => {
       chai.request(app)
         .post('/api/v1/sessions')
         .set('authorization', `Bearer ${mentorToken}`)
-        .send({
-          mentorId: 1,
-          questions: ' ',
-        })
+        .send(Session.session6)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res.body.error).equals('Question is a required field with a maximum number of 100 chars');
@@ -171,10 +119,7 @@ describe('SESSION', () => {
       chai.request(app)
         .post('/api/v1/sessions')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          mentorId: 2,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(Session.session1)
         .end((err, res) => {
           expect(res.body.error).equals('Session already requested with this mentor');
           res.should.have.status(400);
