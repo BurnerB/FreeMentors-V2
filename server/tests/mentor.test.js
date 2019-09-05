@@ -32,7 +32,7 @@ describe('MENTOR', () => {
     process.env.JWT_KEY, {
       expiresIn: '100d',
     });
-
+    
     mentorToken = jwt.sign({
       userId: 2,
       firstName: 'Jane',
@@ -49,7 +49,6 @@ describe('MENTOR', () => {
     process.env.JWT_KEY, {
       expiresIn: '100d',
     });
-
     adminToken = jwt.sign({
       userId: 3,
       firstName: 'Jack',
@@ -68,7 +67,6 @@ describe('MENTOR', () => {
     });
     done();
   });
-
   describe('/get all mentors', () => {
     it('should return all mentors with no token', (done) => {
       chai.request(app)
@@ -87,7 +85,7 @@ describe('MENTOR', () => {
     it('should successfully return specific mentor', (done) => {
       chai.request(app)
         .get('/api/v1/mentors/1')
-        .set('authorization', `${userToken}`)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(200);
           expect(res.body.data).to.be.an('object');
@@ -111,7 +109,7 @@ describe('MENTOR', () => {
     it('should successfully return specific mentor if mentor token provided', (done) => {
       chai.request(app)
         .get('/api/v1/mentors/1')
-        .set('authorization', `${mentorToken} `)
+        .set('authorization', `Bearer ${mentorToken} `)
         .end((err, res) => {
           res.should.have.status(200);
           expect(res.body.data).to.be.an('object');
@@ -123,7 +121,7 @@ describe('MENTOR', () => {
     it('should successfully return specific mentor if admin token provided', (done) => {
       chai.request(app)
         .get('/api/v1/mentors/1')
-        .set('authorization', `${adminToken} `)
+        .set('authorization', `Bearer ${adminToken} `)
         .end((err, res) => {
           res.should.have.status(200);
           expect(res.body.data).to.be.an('object');
