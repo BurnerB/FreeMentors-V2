@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
-import { UserModel } from '../models/usersModel';
+import db from '../db/users';
+import UserModel from '../models/usersModel';
 import response from '../helpers/responses';
 import Token from '../helpers/tokenGen';
+
 
 class Authentication {
   static async registerUser(req, res) {
@@ -16,30 +18,30 @@ class Authentication {
         occupation,
         expertise,
       } = req.body;
-
+      const userId = db.length + 1;
+      const isMentor = false;
+      const isAdmin = false;
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       
-
-      const newUser = new UserModel(
+      
+      const newUser = new UserModel({
+        userId,
         firstName,
         lastName,
         email,
-        hashedPassword,
+        password: hashedPassword,
         address,
         bio,
         occupation,
         expertise,
-      );
-
-      // const modifiedUser = (JSON.parse(JSON.stringify(newUser)));
+        isMentor,
+        isAdmin,
+      });
       const registeredUser = await newUser.registerUser();
-      // console.log(registeredUser);
-      if (!registeredUser) {
-        return response.handleError(409, 'The email has already been used to register', res);
-      }
+      
       const token = await Token.genToken(registeredUser);
-      // console.log(token);
+
       return response.authsuccess(201, 'User created successfully', { token }, res);
     } catch (e) {
       return response.catchError(500, e.message, res);
@@ -49,10 +51,9 @@ class Authentication {
   static async userLogin(req, res) {
     try {
       const { email, password } = req.body;
-      const user = await UserModel.findByEmail(email);
+      const user = await UserModel.findBy('email', email, db);
 
       if (user) {
-        // console.log(user);
         if (bcrypt.compareSync(password, user.password)) {
           const token = Token.genToken(user);
           return response.authsuccess(200, 'User is successfully logged in', { token }, res);

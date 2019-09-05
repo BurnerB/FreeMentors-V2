@@ -15,9 +15,8 @@ function auth(req, res, next) {
     if (!decoded) {
       return response.handleError(400, 'Invalid or expired token', res);
     }
-    // console.log(req);
     req.locals = decoded;
-    // console.log(req.locals);
+
     next();
   } catch (error) {
     return response.catchError(500, error.toString(), res);

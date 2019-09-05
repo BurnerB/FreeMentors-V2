@@ -1,26 +1,17 @@
 import db from '../db/sessions';
+import BaseClass from './baseclass';
 
-class SessionModel {
-  constructor(mentorId, menteeId, questions, menteeEmail) {
-    this.sessionId = db.length + 1;
-    this.mentorId = mentorId;
-    this.menteeId = menteeId;
-    this.questions = questions;
-    this.menteeEmail = menteeEmail;
-    this.status = 'pending';
-  }
-
+class SessionModel extends BaseClass {
   async requestSession() {
     const session = {
-      sessionId: this.sessionId,
-      mentorId: this.mentorId,
-      menteeId: this.menteeId,
-      questions: this.questions,
-      menteeEmail: this.menteeEmail,
-      status: this.status,
+      sessionId: this.payload.sessionId,
+      mentorId: this.payload.mentorId,
+      menteeId: this.payload.menteeId,
+      questions: this.payload.questions,
+      menteeEmail: this.payload.menteeEmail,
+      status: this.payload.status,
     };
-    const obj = db.find((o) => o.mentorId === this.mentorId && o.menteeId === this.menteeId);
-
+    const obj = db.find((o) => o.mentorId === this.payload.mentorId && o.menteeId === this.payload.menteeId);
     if (!obj) {
       db.push(session);
       return session;
@@ -28,16 +19,8 @@ class SessionModel {
     return false;
   }
 
-  static async findById(sessionId) {
-    const obj = db.find((o) => o.sessionId === parseInt(sessionId));
-    if (!obj) {
-      return false;
-    }
-    return obj;
-  }
-
   static async wasRequested(sessionId, mentorId) {
-    const obj = db.find((o) => o.sessionId === parseInt(sessionId) && o.mentorId === parseInt(mentorId));
+    const obj = db.find((o) => o.sessionId === parseInt(sessionId, 10) && o.mentorId === parseInt(mentorId, 10));
     if (!obj) {
       return false;
     }
@@ -76,20 +59,12 @@ class SessionModel {
     return rejected;
   }
 
-  static async getUserSessions(menteeId) {
-    const obj = db.filter((o) => o.menteeId === parseInt(menteeId));
-    if (!obj) {
-      return false;
+  static async findSessions(key, value) {
+    const obj = db.filter((o) => o[key] === parseInt(value, 10));
+    if (obj) {
+      return obj;
     }
-    return obj;
-  }
-
-  static async getMentorSessions(mentorId) {
-    const obj = db.filter((o) => o.mentorId === parseInt(mentorId));
-    if (!obj) {
-      return false;
-    }
-    return obj;
+    return false;
   }
 }
 export default SessionModel;

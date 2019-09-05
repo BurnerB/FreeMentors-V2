@@ -43,6 +43,28 @@ describe('AUTH', () => {
         });
     });
 
+    it('should unsuccessfully sign up a user twice', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'johndoe1@email.com',
+          password: 'password123',
+          address: 'Nairobi Kenya',
+          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
+          occupation: 'Musician',
+          expertise: 'rapping',
+        })
+        .end((err, res) => {
+          res.should.have.status(409);
+          expect(res).to.be.an('object');
+          expect(res.body.error).equals('The email has already been used to register');
+          if (err) return done();
+          done();
+        });
+    });
+
     it('should check if the email has already been used to register', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
@@ -141,7 +163,7 @@ describe('AUTH', () => {
         .send({
           firstName: 'John',
           lastName: 'Doe',
-          email: 'johndoe@email.com',
+          email: 'johndoe5@email.com',
           password: new Array(50).join('a'),
           address: 'Nairobi Kenya',
           bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
@@ -164,7 +186,7 @@ describe('AUTH', () => {
         .send({
           firstName: 'John',
           lastName: 'Doe',
-          email: 'johndoe@email.com',
+          email: 'johndoe5@email.com',
           password: 'password123',
           address: '',
           bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
@@ -187,7 +209,7 @@ describe('AUTH', () => {
         .send({
           firstName: 'John',
           lastName: 'Doe',
-          email: 'johndoe@email.com',
+          email: 'johndoe5@email.com',
           password: 'password123',
           address: 'Nairobi @3#$',
           bio: new Array(202).join('a'),
@@ -210,7 +232,7 @@ describe('AUTH', () => {
         .send({
           firstName: 'John',
           lastName: 'Doe',
-          email: 'johndoe@email.com',
+          email: 'johndoe5@email.com',
           password: 'password123',
           address: 'Nairobi Kenya',
           bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
@@ -233,7 +255,7 @@ describe('AUTH', () => {
         .send({
           firstName: 'John',
           lastName: 'Doe',
-          email: 'johndoe@email.com',
+          email: 'johndoe5@email.com',
           password: 'password123',
           address: 'Nairobi Kenya',
           bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
@@ -291,7 +313,7 @@ describe('AUTH', () => {
           password: ' ',
         })
         .end((err, res) => {
-          // res.should.have.status(400);
+          res.should.have.status(400);
           expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();

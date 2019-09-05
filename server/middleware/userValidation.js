@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 import response from '../helpers/responses';
 
 class Validations {
-  static async validateSignup(req, res, next) {
+  static validateSignup(req, res, next) {
     try {
       const schema = {
         firstName: Joi.string().trim().min(3).max(15)
@@ -44,7 +44,7 @@ class Validations {
       const { error } = Joi.validate(req.body, schema);
 
       if (error) {
-        return response.validationError(400, error.details[0].message, res);
+        return response.catchError(400, error.details[0].message, res);
       }
       next();
     } catch (e) {
@@ -52,7 +52,7 @@ class Validations {
     }
   }
 
-  static async validateLogin(req, res, next) {
+  static validateLogin(req, res, next) {
     try {
       const schema = {
         email: Joi.string().trim().email({ minDomainSegments: 2 }).required()
@@ -65,7 +65,7 @@ class Validations {
       const { error } = Joi.validate(req.body, schema);
 
       if (error) {
-        return response.validationError(400, error.details[0].message, res);
+        return response.catchError(400, error.details[0].message, res);
       }
       next();
     } catch (e) {

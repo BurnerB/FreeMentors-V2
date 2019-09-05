@@ -1,5 +1,6 @@
 import response from '../helpers/responses';
-import { MentorModel } from '../models/usersModel';
+import MentorModel from '../models/mentorModel';
+import db from '../db/users';
 
 
 class Mentor {
@@ -22,13 +23,12 @@ class Mentor {
   static async getSpecificMentors(req, res) {
     try {
       const { mentorId } = req.params;
-      const mentor = await MentorModel.findById(mentorId);
-
+      const mentor = await MentorModel.findBy('userId', parseInt(mentorId, 10), db);
       if (!mentor) {
         return response.handleError(404, 'No Mentor with that ID found', res);
       }
-      const { password, ...noA } = mentor;
-      return response.success(200, noA, res);
+      const { password, ...args } = mentor;
+      return response.success(200, args, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }

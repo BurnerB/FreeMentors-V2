@@ -1,16 +1,14 @@
 import response from '../helpers/responses';
-import { UserModel, AdminModel } from '../models/usersModel';
+import AdminModel from '../models/AdminModel';
+import db from '../db/users';
 
 
 class Admin {
   static async makeMentor(req, res) {
     try {
       const { userId } = req.params;
-      const mentor = await AdminModel.isalreadyMentor(userId);
-      if (mentor) {
-        return response.handleError(400, 'User is already a mentor', res);
-      }
-      const user = await UserModel.findById(userId);
+      
+      const user = await AdminModel.findBy('userId', parseInt(userId, 10), db);
       if (!user) {
         return response.handleError(404, 'User with that Id not found', res);
       }

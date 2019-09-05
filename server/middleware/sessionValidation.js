@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 import response from '../helpers/responses';
 
 class Validations {
-  static async validateSessions(req, res, next) {
+  static validateSessions(req, res, next) {
     try {
       const schema = {
         mentorId: Joi.number().integer()
@@ -15,7 +15,7 @@ class Validations {
       };
       const { error } = Joi.validate(req.body, schema);
       if (error) {
-        return response.validationError(400, error.details[0].message, res);
+        return response.catchError(400, error.details[0].message, res);
       }
       next();
     } catch (e) {
