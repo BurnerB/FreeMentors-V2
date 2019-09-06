@@ -1,0 +1,43 @@
+const Tokens = {
+  userinfo: {
+    userId: 3,
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'johndoe@email.com',
+    password: 'password123',
+    address: 'Nairobi Kenya',
+    bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
+    occupation: 'Musician',
+    expertise: 'rapping',
+    isMentor: false,
+    isAdmin: false,
+  },
+  mentorinfo: {
+    userId: 2,
+    firstName: 'Jane',
+    lastName: 'Doe',
+    email: 'janedoe@email.com',
+    password: 'password123',
+    address: 'Nairobi Kenya',
+    bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
+    occupation: 'Musician',
+    expertise: 'rapping',
+    isMentor: true,
+    isAdmin: false,
+  },
+  admininfo: {
+    userId: 1,
+    firstName: 'Jack',
+    lastName: 'Doe',
+    email: 'jackdoe@email.com',
+    password: 'password123',
+    address: 'Nairobi Kenya',
+    bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
+    occupation: 'Musician',
+    expertise: 'rapping',
+    isMentor: true,
+    isAdmin: true,
+  },
+};
+
+export default Tokens;

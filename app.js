@@ -4,9 +4,10 @@ import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import '@babel/polyfill';
 import bodyParser from 'body-parser';
-import userRoutes from './server/routes/userRoutes';
-import sessionRoutes from './server/routes/sessionRoutes';
-import AdminRoutes from './server/routes/adminRoutes';
+
+import routes from './server/routes';
+import response from './server/helpers/responses';
+
 
 const swaggerDocument = require('./Docs/swagger-doc.json');
 
@@ -19,15 +20,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
-
-app.use('/api/v1', userRoutes);
-app.use('/api/v1', AdminRoutes);
-app.use('/api/v1', sessionRoutes);
+routes(app);
 app.use(cors());
 
 app.get('/', (req, res) => {
   res.json({ message: 'hello world!! Your app is working' });
 });
+
+
+app.use((req, res) => response.handleError(405 ,'Method not allowed',res));
+
+app.use((req, res) => {
+  if (!req.is('*/json')) {
+    return response.handleError(404, 'Not valid Json request', res);
+  }
+});
+
+app.use((req, res) => response.handleError(405, 'Method not allowed', res));
+
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(port, () => console.log(`Listening on port ${port}...`));

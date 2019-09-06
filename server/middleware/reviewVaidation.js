@@ -2,16 +2,16 @@ import Joi from '@hapi/joi';
 import response from '../helpers/responses';
 
 class Validations {
-  static validateSessions(req, res, next) {
+  static validateReview(req, res, next) {
     try {
       const schema = {
-        mentorId: Joi.number().integer()
+        score: Joi.number().min(0).max(5)
           .required()
-          .error(() => 'MentorId is a required field and must be an integer'),
+          .error(() => 'score is a required field and must be an integer between 0-5'),
 
-        questions: Joi.string().trim().max(100)
+        remarks: Joi.string().trim().min(5).max(100)
           .required()
-          .error(() => 'Question is a required field with a maximum number of 100 chars'),
+          .error(() => 'remarks is a required field with a minimum of 5 and maximum number of 100 chars'),
       };
       const { error } = Joi.validate(req.body, schema);
       if (error) {

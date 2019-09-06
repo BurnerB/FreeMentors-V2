@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../app';
+import User from './mocks/userMocks';
 
 const { expect } = chai;
 chai.should();
@@ -24,16 +25,7 @@ describe('AUTH', () => {
     it('should successfully sign up a user', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@email.com',
-          password: 'password123',
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user)
         .end((err, res) => {
           res.should.have.status(201);
           expect(res).to.be.an('object');
@@ -43,19 +35,23 @@ describe('AUTH', () => {
         });
     });
 
+    it('should unsuccessfully sign up a user twice', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send(User.user1)
+        .end((err, res) => {
+          res.should.have.status(409);
+          expect(res).to.be.an('object');
+          expect(res.body.error).equals('The email has already been used to register');
+          if (err) return done();
+          done();
+        });
+    });
+
     it('should check if the email has already been used to register', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@email.com',
-          password: 'password123',
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user1)
         .end((err, res) => {
           res.should.have.status(409);
           expect(res).to.be.an('object');
@@ -69,16 +65,7 @@ describe('AUTH', () => {
     it('should check if the email is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoeemail.com',
-          password: 'password123',
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user2)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -92,16 +79,7 @@ describe('AUTH', () => {
     it('should check if the firstname is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John123',
-          lastName: 'Doe',
-          email: 'johndoeemail.com',
-          password: 'password123',
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user3)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -115,16 +93,7 @@ describe('AUTH', () => {
     it('should check if the lastname is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe123',
-          email: 'johndoeemail.com',
-          password: 'password123',
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user4)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -138,16 +107,7 @@ describe('AUTH', () => {
     it('should check if the password is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@email.com',
-          password: new Array(50).join('a'),
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user5)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -161,16 +121,7 @@ describe('AUTH', () => {
     it('should check if the address is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@email.com',
-          password: 'password123',
-          address: '',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user6)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -184,16 +135,7 @@ describe('AUTH', () => {
     it('should check if the bio is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@email.com',
-          password: 'password123',
-          address: 'Nairobi @3#$',
-          bio: new Array(202).join('a'),
-          occupation: 'Musician',
-          expertise: 'rapping',
-        })
+        .send(User.user7)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -207,16 +149,7 @@ describe('AUTH', () => {
     it('should check if occupation is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@email.com',
-          password: 'password123',
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: ' ',
-          expertise: 'rapping',
-        })
+        .send(User.user8)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -230,16 +163,7 @@ describe('AUTH', () => {
     it('should check expertice is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
-        .send({
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@email.com',
-          password: 'password123',
-          address: 'Nairobi Kenya',
-          bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
-          occupation: 'Musician',
-          expertise: ' ',
-        })
+        .send(User.user9)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res).to.be.an('object');
@@ -255,10 +179,7 @@ describe('AUTH', () => {
     it('should successfully login user', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
-        .send({
-          email: 'johndoe@email.com',
-          password: 'password123',
-        })
+        .send(User.user10)
         .end((err, res) => {
           res.should.have.status(200);
           expect(res).to.be.an('object');
@@ -271,10 +192,7 @@ describe('AUTH', () => {
     it('should not login user without email', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
-        .send({
-          email: ' ',
-          password: 'password123',
-        })
+        .send(User.user11)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res.body.error).equals('Email is a required field and must be valid');
@@ -286,12 +204,9 @@ describe('AUTH', () => {
     it('should not login user without password', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
-        .send({
-          email: 'johndoe@email.com',
-          password: ' ',
-        })
+        .send(User.user12)
         .end((err, res) => {
-          // res.should.have.status(400);
+          res.should.have.status(400);
           expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();
@@ -301,10 +216,7 @@ describe('AUTH', () => {
     it('should not login user with mismatch password', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
-        .send({
-          email: 'johndoe@email.com',
-          password: 'password1234',
-        })
+        .send(User.user13)
         .end((err, res) => {
           res.should.have.status(401);
           expect(res.body.error).equals('Incorrect password Email combination');
@@ -316,10 +228,7 @@ describe('AUTH', () => {
     it('should not login user not registered', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
-        .send({
-          email: 'janedoe@email.com',
-          password: 'password123',
-        })
+        .send(User.user14)
         .end((err, res) => {
           res.should.have.status(404);
           expect(res.body.error).equals('Email not found, sign up to create an account');
@@ -331,10 +240,7 @@ describe('AUTH', () => {
     it('should check if email is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
-        .send({
-          email: 'janedoeemail.com',
-          password: 'password123',
-        })
+        .send(User.user15)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res.body.error).equals('Email is a required field and must be valid');
@@ -346,10 +252,7 @@ describe('AUTH', () => {
     it('should check if password is valid', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
-        .send({
-          email: 'johndoe@email.com',
-          password: new Array(50).join('a'),
-        })
+        .send(User.user16)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');

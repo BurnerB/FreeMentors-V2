@@ -7,14 +7,6 @@ class Responses {
     });
   }
 
-  // static handleSuccess(statusCode, message, data, res) {
-  //   res.status(statusCode).json({
-  //     status: statusCode,
-  //     message,
-  //     data,
-  //   });
-  // }
-
   static success(statusCode, message, res) {
     res.status(statusCode).json({
       status: statusCode,
@@ -26,13 +18,6 @@ class Responses {
     res.status(statusCode).json({
       status: statusCode,
       error: message,
-    });
-  }
-
-  static validationError(statusCode, data, res) {
-    res.status(statusCode).json({
-      status: statusCode,
-      error: data,
     });
   }
 
