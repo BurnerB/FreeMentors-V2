@@ -1,6 +1,6 @@
 const Tokens = {
   userinfo: {
-    userId: 1,
+    userId: 3,
     firstName: 'John',
     lastName: 'Doe',
     email: 'johndoe@email.com',
@@ -26,7 +26,7 @@ const Tokens = {
     isAdmin: false,
   },
   admininfo: {
-    userId: 3,
+    userId: 1,
     firstName: 'Jack',
     lastName: 'Doe',
     email: 'jackdoe@email.com',

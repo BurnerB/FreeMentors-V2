@@ -1,5 +1,5 @@
 const User = {
-  user:{
+  user: {
     firstName: 'John',
     lastName: 'Doe',
     email: 'johndoe6@email.com',
