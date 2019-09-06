@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import { expect } from 'chai';
 import app from '../../app';
 import User from './mocks/userMocks';
 
-const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
 
@@ -17,7 +17,7 @@ describe('AUTH', () => {
           expect(res).to.be.an('object');
           expect(res.body.message).equals('hello world!! Your app is working');
           if (err) return done();
-          done();
+          return done();
         });
     });
   })
@@ -31,7 +31,7 @@ describe('AUTH', () => {
           expect(res).to.be.an('object');
           expect(res.body.message).equals('User created successfully');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -44,7 +44,7 @@ describe('AUTH', () => {
           expect(res).to.be.an('object');
           expect(res.body.error).equals('The email has already been used to register');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -58,7 +58,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('The email has already been used to register');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -72,7 +72,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Email is a required field and must be valid');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -86,7 +86,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Firstname is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -100,7 +100,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Lastname is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -114,7 +114,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -128,7 +128,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Address is a required field with a min of 5 chars and no special chars');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -142,7 +142,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Bio is a required field with a maximum of 200 chars');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -156,7 +156,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Occupation is a required field with minimum of 3 chars maximum of 15 chars');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -170,7 +170,7 @@ describe('AUTH', () => {
           expect(res.body).to.have.property('status');
           expect(res.body.error).equals('Expertise is a required field with a minimum of 3 chars maximum of 15 chars');
           if (err) return done();
-          done();
+          return done();
         });
     });
   });
@@ -185,7 +185,7 @@ describe('AUTH', () => {
           expect(res).to.be.an('object');
           expect(res.body.message).equals('User is successfully logged in');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -197,7 +197,7 @@ describe('AUTH', () => {
           res.should.have.status(400);
           expect(res.body.error).equals('Email is a required field and must be valid');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -209,7 +209,7 @@ describe('AUTH', () => {
           res.should.have.status(400);
           expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -221,7 +221,7 @@ describe('AUTH', () => {
           res.should.have.status(401);
           expect(res.body.error).equals('Incorrect password Email combination');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -233,7 +233,7 @@ describe('AUTH', () => {
           res.should.have.status(404);
           expect(res.body.error).equals('Email not found, sign up to create an account');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -245,7 +245,7 @@ describe('AUTH', () => {
           res.should.have.status(400);
           expect(res.body.error).equals('Email is a required field and must be valid');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -257,7 +257,7 @@ describe('AUTH', () => {
           res.should.have.status(400);
           expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
-          done();
+          return done();
         });
     });
   });

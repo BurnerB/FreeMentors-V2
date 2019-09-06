@@ -1,13 +1,12 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import {expect} from 'chai';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Token from './mocks/tokenMocks';
 import app from '../../app';
 
 dotenv.config();
-
-const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
 

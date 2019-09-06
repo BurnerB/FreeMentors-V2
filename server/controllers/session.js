@@ -73,13 +73,11 @@ class Sessions {
         }
         return response.success(200, sessions, res);
       }
-      if (isMentor) {
-        const sessions = await SessionModel.findSessions('mentorId', userId);
-        if (!sessions) {
-          return response.handleError(404, 'You have no sessions requested', res);
-        }
-        return response.success(200, sessions, res);
+      const sessions = await SessionModel.findSessions('mentorId', userId);
+      if (!sessions) {
+        return response.handleError(404, 'You have no sessions requested', res);
       }
+      return response.success(200, sessions, res);
     } catch (e) {
       return response.catchError(500, e.message, res);
     }

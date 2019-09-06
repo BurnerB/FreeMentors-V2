@@ -46,7 +46,7 @@ class Validations {
       if (error) {
         return response.catchError(400, error.details[0].message, res);
       }
-      next();
+      return next();
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -67,7 +67,7 @@ class Validations {
       if (error) {
         return response.catchError(400, error.details[0].message, res);
       }
-      next();
+      return next();
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }

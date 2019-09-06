@@ -8,8 +8,6 @@ import Session from './mocks/sessionMocks';
 
 
 dotenv.config();
-
-const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
 
@@ -43,9 +41,9 @@ describe('SESSION', () => {
         .send(Session.session1)
         .end((err, res) => {
           res.should.have.status(201);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -56,9 +54,9 @@ describe('SESSION', () => {
         .send(Session.session2)
         .end((err, res) => {
           res.should.have.status(201);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -69,9 +67,9 @@ describe('SESSION', () => {
         .send(Session.session3)
         .end((err, res) => {
           res.should.have.status(201);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -82,9 +80,9 @@ describe('SESSION', () => {
         .send(Session.session4)
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -95,9 +93,9 @@ describe('SESSION', () => {
         .send(Session.session5)
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -108,10 +106,10 @@ describe('SESSION', () => {
         .send(Session.session6)
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.error).equals('Question is a required field with a maximum number of 100 chars');
-          expect(res).to.be.an('object');
+          res.body.error.should.equal('Question is a required field with a maximum number of 100 chars');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -121,11 +119,11 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${userToken}`)
         .send(Session.session1)
         .end((err, res) => {
-          expect(res.body.error).equals('Session already requested with this mentor');
+           res.body.error.should.equal('Session already requested with this mentor');
           res.should.have.status(400);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
   });
@@ -137,10 +135,10 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${mentorToken}`)
         .end((err, res) => {
           res.should.have.status(200);
-          expect(res.body.data.status).equals('accepted');
-          expect(res).to.be.an('object');
+          res.body.data.status.should.equal('accepted');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -150,10 +148,10 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
-          expect(res.body.error).equals('ACCESS DENIED! Not a Mentor');
-          expect(res).to.be.an('object');
+          res.body.error.should.equal('ACCESS DENIED! Not a Mentor');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -163,9 +161,9 @@ describe('SESSION', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
   });
@@ -177,10 +175,10 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${mentorToken}`)
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.error).equals('Session already accepted');
-          expect(res).to.be.an('object');
+          res.body.error.should.equal('Session already accepted');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -190,10 +188,10 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
-          expect(res.body.error).equals('ACCESS DENIED! Not a Mentor');
-          expect(res).to.be.an('object');
+          res.body.error.should.equal('ACCESS DENIED! Not a Mentor');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -203,9 +201,9 @@ describe('SESSION', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
   });
@@ -217,9 +215,9 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${mentorToken}`)
         .end((err, res) => {
           res.should.have.status(200);
-          expect(res.body.data).to.be.an('array');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -229,9 +227,9 @@ describe('SESSION', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res).to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
-          done();
+          return done();
         });
     });
   });
