@@ -13,7 +13,7 @@ class ReviewModel extends BaseClass {
       remark: this.payload.remark,
     };
     const obj = db.find((o) => o.menteeFullName === this.payload.menteeFullName);
-    if (!obj) {
+    if (obj) {
       return false;
     }
     db.push(review);

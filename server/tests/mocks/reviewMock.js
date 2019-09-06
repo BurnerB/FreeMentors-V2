@@ -11,10 +11,10 @@ const reviews = {
     score: 8,
     remarks: 'was generouse event,was generouse event,was generouse event,was generouse event,was generouse event',
   },
-  review4:{
+  review4: {
     score: 3,
     remarks: ' ',
-  }
+  },
 };
 
 export default reviews;

@@ -34,6 +34,9 @@ class Review {
       });
 
       const review = await newReview.makeReview();
+      if (!review) {
+        return response.handleError(409, 'You have already reviewed this  session', res);
+      }
       return response.success(200, review, res);
     } catch (error) {
       return response.catchError(500, error.message, res);
