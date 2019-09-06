@@ -80,7 +80,7 @@ describe('Review', () => {
         .send(review.review4)
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.error).equals('remarks is a required field with a maximum number of 100 chars');
+          expect(res.body.error).equals('remarks is a required field with a minimum of 5 and maximum number of 100 chars');
           if (err) return done();
           done();
         });
