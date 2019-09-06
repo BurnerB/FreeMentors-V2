@@ -24,7 +24,7 @@ class Mentor {
     try {
       const { mentorId } = req.params;
       const mentor = await MentorModel.findBy('userId', parseInt(mentorId, 10), db);
-      if (!mentor) {
+      if (mentor.isMentor === false) {
         return response.handleError(404, 'No Mentor with that ID found', res);
       }
       const { password, ...args } = mentor;
