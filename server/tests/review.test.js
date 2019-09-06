@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Token from './mocks/tokenMocks';
 import app from '../../app';
-import review from '../tests/mocks/reviewMock';
+import review from './mocks/reviewMock';
 
 dotenv.config();
 
@@ -14,7 +14,6 @@ chai.use(chaiHttp);
 
 let userToken;
 let mentorToken;
-let adminToken;
 
 describe('Review', () => {
   before('generate JWT', (done) => {
@@ -24,10 +23,6 @@ describe('Review', () => {
       });
 
     mentorToken = jwt.sign(Token.mentorinfo,
-      process.env.JWT_KEY, {
-        expiresIn: '100d',
-      });
-    adminToken = jwt.sign(Token.admininfo,
       process.env.JWT_KEY, {
         expiresIn: '100d',
       });
@@ -41,7 +36,7 @@ describe('Review', () => {
         .send(review.review1)
         .end((err, res) => {
           res.should.have.status(404);
-          expect(res.body.error).equals('No Session with that Id exists');
+          res.body.error.should.be.equals('No Session with that Id exists');
           if (err) return done();
           done();
         });
@@ -54,7 +49,7 @@ describe('Review', () => {
         .send(review.review2)
         .end((err, res) => {
           res.should.have.status(403);
-          expect(res.body.error).equals('ACCESS DENIED! A mantor cannot review a session');
+          res.body.error.should.be.equals('ACCESS DENIED! A mantor cannot review a session');
           if (err) return done();
           done();
         });
@@ -67,7 +62,7 @@ describe('Review', () => {
         .send(review.review3)
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.error).equals('score is a required field and must be an integer between 0-5');
+          res.body.error.should.be.equals('score is a required field and must be an integer between 0-5');
           if (err) return done();
           done();
         });
@@ -80,7 +75,7 @@ describe('Review', () => {
         .send(review.review4)
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.error).equals('remarks is a required field with a minimum of 5 and maximum number of 100 chars');
+          res.body.error.should.be.equals('remarks is a required field with a minimum of 5 and maximum number of 100 chars');
           if (err) return done();
           done();
         });

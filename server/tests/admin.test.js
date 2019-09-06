@@ -15,7 +15,6 @@ chai.use(chaiHttp);
 let userToken;
 let mentorToken;
 let adminToken;
-let expiredToken;
 
 describe('MENTOR', () => {
   before('generate JWT', (done) => {
@@ -23,11 +22,6 @@ describe('MENTOR', () => {
       process.env.JWT_KEY, {
         expiresIn: '100d',
       });
-    expiredToken = jwt.sign(Token.userinfo,
-      process.env.JWT_KEY, {
-        expiresIn: '1',
-      });
-
     mentorToken = jwt.sign(Token.mentorinfo,
       process.env.JWT_KEY, {
         expiresIn: '100d',
@@ -73,7 +67,7 @@ describe('MENTOR', () => {
           expect(res).to.be.an('object');
           expect(res.body.error).equals('User is already a mentor');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -86,7 +80,7 @@ describe('MENTOR', () => {
           expect(res).to.be.an('object');
           expect(res.body.error).equals('ACCESS DENIED! Not an Admin');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -99,7 +93,7 @@ describe('MENTOR', () => {
           expect(res).to.be.an('object');
           expect(res.body.error).equals('ACCESS DENIED! Not an Admin');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -112,7 +106,7 @@ describe('MENTOR', () => {
           expect(res).to.be.an('object');
           expect(res.body.error).equals('ACCESS DENIED! No token provided');
           if (err) return done();
-          done();
+          return done();
         });
     });
 
@@ -125,7 +119,7 @@ describe('MENTOR', () => {
           expect(res).to.be.an('object');
           expect(res.body.error).equals('ACCESS DENIED! No token provided');
           if (err) return done();
-          done();
+          return done();
         });
     });
   });

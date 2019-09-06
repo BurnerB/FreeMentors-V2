@@ -17,7 +17,7 @@ function auth(req, res, next) {
     }
     req.locals = decoded;
 
-    next();
+    return next();
   } catch (error) {
     return response.catchError(500, error.toString(), res);
   }

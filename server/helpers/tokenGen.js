@@ -7,7 +7,7 @@ dotenv.config();
 class Token {
   static genToken(payload) {
     const token = jwt.sign(payload, process.env.JWT_KEY, {
-      expiresIn: '100d',
+      expiresIn: '24h',
     });
     return token;
   }
