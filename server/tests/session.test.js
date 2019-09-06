@@ -41,7 +41,7 @@ describe('SESSION', () => {
         .send(Session.session1)
         .end((err, res) => {
           res.should.have.status(201);
-          res.to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -54,7 +54,7 @@ describe('SESSION', () => {
         .send(Session.session2)
         .end((err, res) => {
           res.should.have.status(201);
-          res.should.be('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -67,7 +67,7 @@ describe('SESSION', () => {
         .send(Session.session3)
         .end((err, res) => {
           res.should.have.status(201);
-          res.should.be('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -80,7 +80,7 @@ describe('SESSION', () => {
         .send(Session.session4)
         .end((err, res) => {
           res.should.have.status(401);
-          res.should.be('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -93,7 +93,7 @@ describe('SESSION', () => {
         .send(Session.session5)
         .end((err, res) => {
           res.should.have.status(400);
-          res.should.be('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -106,8 +106,8 @@ describe('SESSION', () => {
         .send(Session.session6)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.should.be('Question is a required field with a maximum number of 100 chars');
-          res.should.be('object');
+          res.body.error.should.equal('Question is a required field with a maximum number of 100 chars');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -119,9 +119,9 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${userToken}`)
         .send(Session.session1)
         .end((err, res) => {
-          res.body.error.to.be('Session already requested with this mentor');
+           res.body.error.should.equal('Session already requested with this mentor');
           res.should.have.status(400);
-          res.should.be('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -135,8 +135,8 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${mentorToken}`)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.data.status.to.be('accepted');
-          res.should.be('object');
+          res.body.data.status.should.equal('accepted');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -148,8 +148,8 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.error.to.be('ACCESS DENIED! Not a Mentor');
-          res.to.be.an('object');
+          res.body.error.should.equal('ACCESS DENIED! Not a Mentor');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -161,7 +161,7 @@ describe('SESSION', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          res.to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -175,8 +175,8 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${mentorToken}`)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.to.be('Session already accepted');
-          res.to.be.an('object');
+          res.body.error.should.equal('Session already accepted');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -188,8 +188,8 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.error.to.be('ACCESS DENIED! Not a Mentor');
-          res.to.be.an('object');
+          res.body.error.should.equal('ACCESS DENIED! Not a Mentor');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -201,7 +201,7 @@ describe('SESSION', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          res.to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -215,7 +215,7 @@ describe('SESSION', () => {
         .set('authorization', `Bearer ${mentorToken}`)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.data.to.be.an('array');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
@@ -227,7 +227,7 @@ describe('SESSION', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          res.to.be.an('object');
+          res.body.should.be.a('object');
           if (err) return done();
           return done();
         });
