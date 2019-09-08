@@ -44,23 +44,23 @@ class Authentication {
     }
   }
 
-  // static async userLogin(req, res) {
-  //   try {
-  //     const { email, password } = req.body;
-  //     const user = await UserModel.findBy('email', email, db);
+  static async userLogin(req, res) {
+    try {
+      const { email, password } = req.body;
+      const user = await UserModel.findBy('email', email, 'users');
 
-  //     if (user) {
-  //       if (bcrypt.compareSync(password, user.password)) {
-  //         const token = Token.genToken(user);
-  //         return response.authsuccess(200, 'User is successfully logged in', { token }, res);
-  //       }
-  //       return response.handleError(401, 'Incorrect password Email combination', res);
-  //     }
-  //     return response.handleError(404, 'Email not found, sign up to create an account', res);
-  //   } catch (e) {
-  //     return response.catchError(500, e.toString(), res);
-  //   }
-  // }
+      if (user.length !== 0) {
+        if (bcrypt.compareSync(password, user[0].password)) {
+          const token = Token.genToken(user[0]);
+          return response.authsuccess(200, 'User is successfully logged in', { token }, res);
+        }
+        return response.Error(401, 'Incorrect password Email combination', res);
+      }
+      if (user.length === 0) { return response.Error(404, 'Email not found, sign up to create an account', res);}
+    } catch (e) {
+      return response.Error(500, e.toString(), res);
+    }
+  }
 }
 
 export default Authentication;
