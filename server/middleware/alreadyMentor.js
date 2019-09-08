@@ -1,11 +1,12 @@
 import response from '../helpers/responses';
-import db from '../db/users';
+import Db from '../db/Db';
+import UserModel from '../models/usersModel';
 
 function isAlreadyMentor(req, res, next) {
-  const { userId } = req.params;
-  const obj = db.find((o) => o.isMentor === true && o.userId === parseInt(userId, 10));
+  const { isMentor } = req.body;
+  const obj = UserModel.findBy('isMentor', isMentor, Db);
   if (obj) {
-    return response.handleError(409, 'User is already a mentor', res);
+    return response.Error(409, 'The email has already been used to register', res);
   }
   return next();
 }

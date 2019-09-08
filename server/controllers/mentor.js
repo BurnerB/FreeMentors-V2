@@ -1,6 +1,6 @@
 import response from '../helpers/responses';
 import MentorModel from '../models/mentorModel';
-import db from '../db/users';
+// import db from '../db/users';
 
 
 class Mentor {

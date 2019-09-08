@@ -44,11 +44,11 @@ class Validations {
       const { error } = Joi.validate(req.body, schema);
 
       if (error) {
-        return response.catchError(400, error.details[0].message, res);
+        return response.Error(400, error.details[0].message, res);
       }
       return next();
     } catch (e) {
-      return response.catchError(500, e.toString(), res);
+      return response.Error(500, e.toString(), res);
     }
   }
 
@@ -65,11 +65,11 @@ class Validations {
       const { error } = Joi.validate(req.body, schema);
 
       if (error) {
-        return response.catchError(400, error.details[0].message, res);
+        return response.Error(400, error.details[0].message, res);
       }
       return next();
     } catch (e) {
-      return response.catchError(500, e.toString(), res);
+      return response.Error(500, e.toString(), res);
     }
   }
 }
