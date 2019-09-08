@@ -14,17 +14,10 @@ class Responses {
     });
   }
 
-  static handleError(statusCode, message, res) {
+  static Error(statusCode, message, res) {
     res.status(statusCode).json({
       status: statusCode,
       error: message,
-    });
-  }
-
-  static catchError(statusCode, data, res) {
-    res.status(statusCode).json({
-      status: statusCode,
-      error: data,
     });
   }
 }

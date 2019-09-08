@@ -1,11 +1,12 @@
 import response from '../helpers/responses';
-import db from '../db/users';
+import UserModel from '../models/usersModel';
 
-function alreadyRegistered(req, res, next) {
+
+const alreadyRegistered = async (req, res, next) => {
   const { email } = req.body;
-  const obj = db.find((o) => o.email === email);
-  if (obj) {
-    return response.handleError(409, 'The email has already been used to register', res);
+  const obj = await UserModel.findBy('email', email, 'users');
+  if (obj.length !== 0) {
+    return response.Error(409, 'The email has already been used to register', res);
   }
   return next();
 }

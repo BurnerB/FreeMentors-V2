@@ -1,5 +1,5 @@
 import BaseClass from './baseclass';
-import db from '../db/users';
+// import db from '../db/users';
 
 class AdminModel extends BaseClass {
   static async makeMentor(user) {

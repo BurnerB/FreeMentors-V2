@@ -1,4 +1,4 @@
-import db from '../db/users';
+// import db from '../db/users';
 import BaseClass from './baseclass';
 
 class MentorModel extends BaseClass {

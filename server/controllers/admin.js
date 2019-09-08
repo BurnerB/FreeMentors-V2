@@ -1,6 +1,6 @@
 import response from '../helpers/responses';
 import AdminModel from '../models/AdminModel';
-import db from '../db/users';
+// import db from '../db/users';
 
 
 class Admin {
