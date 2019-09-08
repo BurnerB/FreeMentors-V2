@@ -175,90 +175,90 @@ describe('AUTH', () => {
     });
   });
 
-  // describe('/post login', () => {
-  //   it('should successfully login user', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send(User.user10)
-  //       .end((err, res) => {
-  //         res.should.have.status(200);
-  //         expect(res).to.be.an('object');
-  //         expect(res.body.message).equals('User is successfully logged in');
-  //         if (err) return done();
-  //         return done();
-  //       });
-  //   });
+  describe('/post login', () => {
+    it('should successfully login user', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(User.user10)
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res).to.be.an('object');
+          expect(res.body.message).equals('User is successfully logged in');
+          if (err) return done();
+          return done();
+        });
+    });
 
-  //   it('should not login user without email', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send(User.user11)
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //         expect(res.body.error).equals('Email is a required field and must be valid');
-  //         if (err) return done();
-  //         return done();
-  //       });
-  //   });
+    it('should not login user without email', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(User.user11)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Email is a required field and must be valid');
+          if (err) return done();
+          return done();
+        });
+    });
 
-  //   it('should not login user without password', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send(User.user12)
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //         expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
-  //         if (err) return done();
-  //         return done();
-  //       });
-  //   });
+    it('should not login user without password', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(User.user12)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
+          if (err) return done();
+          return done();
+        });
+    });
 
-  //   it('should not login user with mismatch password', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send(User.user13)
-  //       .end((err, res) => {
-  //         res.should.have.status(401);
-  //         expect(res.body.error).equals('Incorrect password Email combination');
-  //         if (err) return done();
-  //         return done();
-  //       });
-  //   });
+    it('should not login user with mismatch password', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(User.user13)
+        .end((err, res) => {
+          res.should.have.status(401);
+          expect(res.body.error).equals('Incorrect password Email combination');
+          if (err) return done();
+          return done();
+        });
+    });
 
-  //   it('should not login user not registered', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send(User.user14)
-  //       .end((err, res) => {
-  //         res.should.have.status(404);
-  //         expect(res.body.error).equals('Email not found, sign up to create an account');
-  //         if (err) return done();
-  //         return done();
-  //       });
-  //   });
+    it('should not login user not registered', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(User.user14)
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body.error).equals('Email not found, sign up to create an account');
+          if (err) return done();
+          return done();
+        });
+    });
 
-  //   it('should check if email is valid', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send(User.user15)
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //         expect(res.body.error).equals('Email is a required field and must be valid');
-  //         if (err) return done();
-  //         return done();
-  //       });
-  //   });
+    it('should check if email is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(User.user15)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Email is a required field and must be valid');
+          if (err) return done();
+          return done();
+        });
+    });
 
-  //   it('should check if password is valid', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send(User.user16)
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //         expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
-  //         if (err) return done();
-  //         return done();
-  //       });
-  //   });
-  // });
+    it('should check if password is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(User.user16)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Password is a required field with a min of 5 chars and no special chars');
+          if (err) return done();
+          return done();
+        });
+    });
+  });
 });
