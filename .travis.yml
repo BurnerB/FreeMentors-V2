@@ -1,9 +1,9 @@
-language:      node_js
+language: node_js
 git:
   depth:       3
 node_js:
   - "10"
-install:       npm install
+install: npm install
 cache:
   directories:
     - node_modules
@@ -18,7 +18,8 @@ before_script:
 script:
   - npm test
 after_success:
+- psql -c'	
+DROP DATABASE target_database;' -U postgres
 - npm run coveralls
-
 notifications:
 email: false
