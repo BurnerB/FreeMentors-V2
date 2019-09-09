@@ -34,19 +34,7 @@ describe('ADMIN', () => {
       });
     done();
     describe('/patch user to mentor', () => {
-    //   it('should successfully sign up a user', (done) => {
-    //     chai.request(app)
-    //       .post('/api/v1/auth/signup')
-    //       .send(User.user1)
-    //       .end((err, res) => {
-    //         res.should.have.status(201);
-    //         expect(res).to.be.an('object');
-    //         expect(res.body.message).equals('User created successfully');
-    //         if (err) return done();
-    //         return done();
-    //       });
-    //   });
-      it('Admin should successfully make user into mentor', (done) => {
+      it('Admin should successfully make user into mentor', () => {
         chai.request(app)
           .patch('/api/v1/user/1')
           .set('authorization', `Bearer ${adminToken}`)

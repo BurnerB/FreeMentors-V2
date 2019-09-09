@@ -1,6 +1,5 @@
 import BaseClass from './baseclass';
 import db from '../db/reviews';
-import sessions from '../db/sessions';
 
 class ReviewModel extends BaseClass {
   async makeReview() {
