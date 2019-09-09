@@ -100,7 +100,7 @@ const User = {
     expertise: ' ',
   },
   user10: {
-    email: 'johndoe6@email.com',
+    email: 'johndoe@email.com',
     password: 'password123',
   },
   user11: {
@@ -112,7 +112,7 @@ const User = {
     password: ' ',
   },
   user13: {
-    email: 'johndoe6@email.com',
+    email: 'johndoe@email.com',
     password: 'password1234',
   },
   user14: {

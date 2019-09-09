@@ -12,7 +12,7 @@ import response from './server/helpers/responses';
 const swaggerDocument = require('./Docs/swagger-doc.json');
 
 const app = express();
-const port = process.env.DB_PORT;
+const port = process.env.PORT;
 
 dotenv.config();
 
