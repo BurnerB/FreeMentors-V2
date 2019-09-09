@@ -47,6 +47,32 @@ describe('ADMIN', () => {
           });
       });
 
+      it('Admin should usuccessfully make user into mentor with no token', () => {
+        chai.request(app)
+          .patch('/api/v1/user/1')
+          .set('authorization', 'Bearer ujufhjfojifijijn')
+          .end((err, res) => {
+            res.should.have.status(401);
+            expect(res).to.be.an('object');
+            expect(res.body.error).equals('ACCESS DENIED! No token provided');
+            if (err) return done();
+            return done();
+          });
+      });
+
+      it('Admin should usuccessfully make user into mentor with expired token', () => {
+        chai.request(app)
+          .patch('/api/v1/user/1')
+          .set('authorization', '')
+          .end((err, res) => {
+            res.should.have.status(400);
+            expect(res).to.be.an('object');
+            expect(res.body.error).equals('Invalid or expired token');
+            if (err) return done();
+            return done();
+          });
+      });
+
       it('Admin should unsuccessfully make mentor into mentor', (done) => {
         chai.request(app)
           .patch(`/api/v1/user/${2}`)
