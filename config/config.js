@@ -1,15 +1,15 @@
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
-const env = process.env.NODE_ENV;
+// const env = process.env.NODE_ENV;
 
-dotenv.config();
+// dotenv.config();
 
-const dev = {
-  db: process.env.DATABASE_URL,
-};
+// const dev = {
+//   db: process.env.DATABASE_URL,
+// };
 
-const config = {
-  dev,
-};
+// const config = {
+//   dev,
+// };
 
-module.exports = config[env];
+// module.exports = config[env];
