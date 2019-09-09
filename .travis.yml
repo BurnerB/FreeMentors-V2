@@ -13,10 +13,10 @@ services:
  - postgresql
 before_script:
  - psql -c 'CREATE DATABASE testDatabase;' -U postgres
+ - psql -c 'CREATE USER postgres WITH PASSWORD 'ibombe';' -U postgres
 script:
   - npm test
 after_success:
-- psql -c'	
 - npm run coveralls
 notifications:
 email: false
