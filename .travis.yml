@@ -19,7 +19,7 @@ script:
   - npm test
 after_success:
 - psql -c'	
-DROP DATABASE target_database;' -U postgres
+- DROP DATABASE target_database;' -U postgres
 - npm run coveralls
 notifications:
 email: false
