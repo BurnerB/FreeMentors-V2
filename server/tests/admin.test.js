@@ -34,19 +34,7 @@ describe('ADMIN', () => {
       });
     done();
     describe('/patch user to mentor', () => {
-    //   it('should successfully sign up a user', (done) => {
-    //     chai.request(app)
-    //       .post('/api/v1/auth/signup')
-    //       .send(User.user1)
-    //       .end((err, res) => {
-    //         res.should.have.status(201);
-    //         expect(res).to.be.an('object');
-    //         expect(res.body.message).equals('User created successfully');
-    //         if (err) return done();
-    //         return done();
-    //       });
-    //   });
-      it('Admin should successfully make user into mentor', (done) => {
+      it('Admin should successfully make user into mentor', () => {
         chai.request(app)
           .patch('/api/v1/user/1')
           .set('authorization', `Bearer ${adminToken}`)
@@ -54,6 +42,32 @@ describe('ADMIN', () => {
             res.should.have.status(200);
             expect(res).to.be.an('object');
             expect(res.body.error).equals('User account changed to mentor');
+            if (err) return done();
+            return done();
+          });
+      });
+
+      it('Admin should usuccessfully make user into mentor with no token', () => {
+        chai.request(app)
+          .patch('/api/v1/user/1')
+          .set('authorization', 'Bearer ujufhjfojifijijn')
+          .end((err, res) => {
+            res.should.have.status(401);
+            expect(res).to.be.an('object');
+            expect(res.body.error).equals('ACCESS DENIED! No token provided');
+            if (err) return done();
+            return done();
+          });
+      });
+
+      it('Admin should usuccessfully make user into mentor with expired token', () => {
+        chai.request(app)
+          .patch('/api/v1/user/1')
+          .set('authorization', '')
+          .end((err, res) => {
+            res.should.have.status(400);
+            expect(res).to.be.an('object');
+            expect(res.body.error).equals('Invalid or expired token');
             if (err) return done();
             return done();
           });

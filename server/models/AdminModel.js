@@ -3,7 +3,9 @@ import Db from '../db/Db';
 
 class AdminModel extends BaseClass {
   static async makeMentor(userId) {
-    return Db.query(`UPDATE users SET isMentor='true' WHERE id='${userId}' RETURNING *`);
+    const result = await Db.query(`UPDATE users SET isMentor='true' WHERE id='${userId}' RETURNING *`);
+    const { rows } = result;
+    return rows;
   }
 
   static async isalreadyMentor(userId) {

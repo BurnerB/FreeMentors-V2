@@ -30,12 +30,6 @@ app.get('/', (req, res) => {
 
 app.use((req, res) => response.handleError(405 ,'Method not allowed',res));
 
-app.use((req, res) => {
-  if (!req.is('*/json')) {
-    return response.handleError(404, 'Not valid Json request', res);
-  }
-});
-
 app.use((req, res) => response.handleError(405, 'Method not allowed', res));
 
 

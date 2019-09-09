@@ -3,7 +3,6 @@ import SessionModel from '../models/sessionModel';
 import MentorModel from '../models/usersModel';
 import decoder from '../helpers/decodeToken';
 import db from '../db/sessions';
-// import users from '../db/users';
 
 
 class Sessions {
