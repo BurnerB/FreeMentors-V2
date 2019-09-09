@@ -13,7 +13,7 @@ addons:
 services:
  - postgresql
 
-before_install:
+before_script:
  - psql -c 'CREATE DATABASE FreeMentorsTest' -U postgres
 script:
   - npm test
