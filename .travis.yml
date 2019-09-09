@@ -15,7 +15,7 @@ services:
 
 before_install:
  - psql -c 'create database FreeMentorsTest' -U postgres
- - psql -c 'create USER postgres WITH PASSWORD 'ibombe' -U postgres
+ - psql -c 'create USER postgres WITH PASSWORD 'ibombe';' -U postgres
 script:
   - npm test
 after_success:
