@@ -15,8 +15,6 @@ addons:
 
 before_install:
  - psql -c 'create database FreeMentorsTest;' -U postgres
- 
-
 script:
   - npm test
 after_success:
