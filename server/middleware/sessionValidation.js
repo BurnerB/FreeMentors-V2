@@ -5,10 +5,6 @@ class Validations {
   static validateSessions(req, res, next) {
     try {
       const schema = {
-        mentorId: Joi.number().integer()
-          .required()
-          .error(() => 'MentorId is a required field and must be an integer'),
-
         questions: Joi.string().trim().max(100)
           .required()
           .error(() => 'Question is a required field with a maximum number of 100 chars'),

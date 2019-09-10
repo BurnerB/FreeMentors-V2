@@ -1,5 +1,4 @@
 import ReviewModel from '../models/reviewModel';
-import sessions from '../db/sessions';
 import decoder from '../helpers/decodeToken';
 import response from '../helpers/responses';
 

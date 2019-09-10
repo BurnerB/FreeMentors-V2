@@ -22,6 +22,16 @@ const users = `CREATE TABLE IF NOT EXISTS
     isAdmin BOOL DEFAULT false NOT NULL,
     created_On TIMESTAMP DEFAULT NOW()
   )`;
+const sessions = `CREATE TABLE IF NOT EXISTS
+  sessions(
+    id serial PRIMARY KEY,
+    mentorId INT NOT NULL,
+    menteeId INT NOT NULL,
+    questions VARCHAR(250) NOT NULL ,
+    menteeEmail VARCHAR(50) NOT NULL,
+    status VARCHAR(50) DEFAULT 'pending' NOT NULL,
+    created_On TIMESTAMP DEFAULT NOW()
+  )`;
 
 const createAdmin = async () => {
   const sql = `SELECT * FROM users WHERE email='${process.env.EMAIL}'`;
@@ -53,10 +63,13 @@ client.connect();
 
 if (process.env.NODE_ENV === 'test') {
   client.query('DROP TABLE IF EXISTS users');
+  client.query('DROP TABLE IF EXISTS sessions');
   client.query(users);
+  client.query(sessions);
 } else {
   client.query(users);
   createAdmin();
+  client.query(sessions);
 }
 
 export default client;

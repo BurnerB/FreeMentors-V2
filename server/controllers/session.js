@@ -2,31 +2,32 @@ import response from '../helpers/responses';
 import SessionModel from '../models/sessionModel';
 import MentorModel from '../models/usersModel';
 import decoder from '../helpers/decodeToken';
-import db from '../db/sessions';
+import db from '../db/Db';
 
 
 class Sessions {
   static async requestSession(req, res) {
     try {
       const status = 'pending';
-      const sessionId = db.length + 1;
-      const { mentorId, questions } = req.body;
 
-      if (!await MentorModel.findBy('userId', parseInt(mentorId, 10), users)) {
-        return response.handleError(404, 'No Mentor with that ID found', res);
+      const { questions } = req.body;
+      const { mentorId } = req.params;
+
+      const mentorExists = await MentorModel.findBy('id', parseInt(mentorId, 10),'users');
+      if (mentorExists.length === 0) {
+        return response.Error(404, 'No Mentor with that ID found', res);
       }
       const decoded = decoder.decodeToken(req.headers.authorization);
-      const { userId, email } = decoded;
+      const { id, email } = decoded;
+      const menteeId = parseInt(id, 10);
       const newSession = new SessionModel({
-        sessionId, mentorId, menteeId: userId, questions, menteeEmail: email, status,
+        mentorId, menteeId, questions, menteeEmail: email, status,
       });
+
       const session = await newSession.requestSession();
-      if (!session) {
-        return response.handleError(400, 'Session already requested with this mentor', res);
-      }
       return response.success(201, session, res);
     } catch (e) {
-      return response.catchError(500, e.message, res);
+      return response.Error(500, e.message, res);
     }
   }
 
