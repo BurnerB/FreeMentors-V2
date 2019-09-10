@@ -1,30 +1,21 @@
-import db from '../db/sessions';
 import BaseClass from './baseclass';
+import Db from '../db/Db';
 
 class SessionModel extends BaseClass {
   async requestSession() {
-    const session = {
-      sessionId: this.payload.sessionId,
-      mentorId: this.payload.mentorId,
-      menteeId: this.payload.menteeId,
-      questions: this.payload.questions,
-      menteeEmail: this.payload.menteeEmail,
-      status: this.payload.status,
-    };
-    const obj = db.find((o) => o.mentorId === this.payload.mentorId && o.menteeId === this.payload.menteeId);
-    if (!obj) {
-      db.push(session);
-      return session;
-    }
-    return false;
+    const sql = 'INSERT INTO sessions(mentorId, menteeId, questions, menteeEmail, status) VALUES($1, $2, $3, $4, $5) returning *';
+    const values = [this.payload.mentorId, this.payload.menteeId, this.payload.questions, this.payload.menteeEmail, this.payload.status];
+    const { rows } = await Db.query(sql, values);
+    return rows[0];
   }
 
-  static async wasRequested(sessionId, mentorId) {
-    const obj = db.find((o) => o.sessionId === parseInt(sessionId, 10) && o.mentorId === parseInt(mentorId, 10));
-    if (!obj) {
+  static async wasRequested(menteeId, mentorId) {
+    const sql = `SELECT * FROM sessions WHERE mentorId='${mentorId}' and menteeId='${menteeId}' and status='pending'`;
+    const { rows } = await Db.query(sql);
+    if (rows.length !== 0) {
       return false;
     }
-    return obj;
+    return true;
   }
 
   static async acceptSession(session) {
