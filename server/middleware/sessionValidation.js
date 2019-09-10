@@ -14,8 +14,8 @@ class Validations {
         return response.Error(400, error.details[0].message, res);
       }
       return next();
-    } catch (e) {
-      return response.Error(500, e.toString(), res);
+    } catch (error) {
+      return response.Error(500, error.toString(), res);
     }
   }
 }

@@ -1,9 +1,12 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import dotenv from 'dotenv';
+import { User } from './mocks/userMocks';
 import app from '../../app';
-import User from './mocks/userMocks';
 
 const { expect } = chai;
+
+dotenv.config();
 chai.should();
 chai.use(chaiHttp);
 
