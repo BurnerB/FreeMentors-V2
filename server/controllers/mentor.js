@@ -14,8 +14,8 @@ class Mentor {
         delete mentor.password;
       });
       return response.success(200, mentors, res);
-    } catch (e) {
-      return response.Error(500, e.toString(), res);
+    } catch (error) {
+      return response.Error(500, error.toString(), res);
     }
   }
 
@@ -28,8 +28,8 @@ class Mentor {
       }
       const { password, ...noA } = mentor[0];
       return response.success(200, noA, res);
-    } catch (e) {
-      return response.Error(500, e.toString(), res);
+    } catch (error) {
+      return response.Error(500, error.toString(), res);
     }
   }
 }
