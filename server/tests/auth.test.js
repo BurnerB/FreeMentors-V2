@@ -27,14 +27,13 @@ describe('AUTH', () => {
         .post('/api/v1/auth/signup')
         .send(User.user)
         .end((err, res) => {
-          // res.should.have.status(201);
-          // expect(res).to.be.an('object');
+          res.should.have.status(201);
+          expect(res).to.be.an('object');
           expect(res.body.message).equals('User created successfully');
           if (err) return done();
           return done();
         });
     });
-
     it('should unsuccessfully sign up a user twice', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')

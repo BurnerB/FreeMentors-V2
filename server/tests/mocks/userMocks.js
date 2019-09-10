@@ -1,4 +1,14 @@
 const User = {
+  user0: {
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'johndoe9@email.com',
+    password: 'password123',
+    address: 'Nairobi Kenya',
+    bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
+    occupation: 'Musician',
+    expertise: 'rapping',
+  },
   user: {
     firstName: 'John',
     lastName: 'Doe',
