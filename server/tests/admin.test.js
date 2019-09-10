@@ -16,7 +16,7 @@ let userToken;
 let mentorToken;
 let adminToken;
 
-describe('MENTOR', () => {
+describe('ADMIN', () => {
   before('generate JWT', (done) => {
     userToken = Tokengen.genToken(Token.userinfo);
     mentorToken = Tokengen.genToken(Token.mentorinfo);
