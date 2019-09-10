@@ -1,8 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import Tokengen from '../helpers/tokenGen';
-import Token from './mocks/tokenMocks';
+import { tokens } from './mocks/userMocks';
 import app from '../../app';
 
 const { expect } = chai;
@@ -10,19 +9,7 @@ const { expect } = chai;
 dotenv.config();
 chai.should();
 chai.use(chaiHttp);
-
-let userToken;
-let mentorToken;
-let adminToken;
-
 describe('MENTOR', () => {
-  before('generate JWT', (done) => {
-    userToken = Tokengen.genToken(Token.userinfo);
-    mentorToken = Tokengen.genToken(Token.mentorinfo);
-    adminToken = Tokengen.genToken(Token.admininfo);
-    done();
-  });
-  
   describe('/get all mentors', () => {
     it('should return all mentors with no token', (done) => {
       chai.request(app)
@@ -40,7 +27,7 @@ describe('MENTOR', () => {
       it('should successfully return specific mentor', (done) => {
         chai.request(app)
           .get('/api/v1/mentors/1')
-          .set('authorization', `Bearer ${userToken}`)
+          .set('authorization', `Bearer ${tokens.userToken}`)
           .end((err, res) => {
             res.should.have.status(200);
             expect(res.body.data).to.be.an('object');
@@ -64,7 +51,7 @@ describe('MENTOR', () => {
       it('should successfully return specific mentor if mentor token provided', (done) => {
         chai.request(app)
           .get('/api/v1/mentors/1')
-          .set('authorization', `Bearer ${mentorToken} `)
+          .set('authorization', `Bearer ${tokens.mentorToken} `)
           .end((err, res) => {
             res.should.have.status(200);
             expect(res.body.data).to.be.an('object');
@@ -76,7 +63,7 @@ describe('MENTOR', () => {
       it('should successfully return specific mentor if admin token provided', (done) => {
         chai.request(app)
           .get('/api/v1/mentors/1')
-          .set('authorization', `Bearer ${adminToken} `)
+          .set('authorization', `Bearer ${tokens.adminToken} `)
           .end((err, res) => {
             res.should.have.status(200);
             expect(res.body.data).to.be.an('object');

@@ -15,8 +15,8 @@ class Admin {
       const nowMentor = await AdminModel.makeMentor(user[0].id);
       const { ismentor } = nowMentor[0];
       return response.authsuccess(200, 'User account changed to mentor', { ismentor }, res);
-    } catch (e) {
-      return response.Error(500, e.toString(), res);
+    } catch (error) {
+      return response.Error(500, v.toString(), res);
     }
   }
 }
