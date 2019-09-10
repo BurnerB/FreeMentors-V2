@@ -26,8 +26,8 @@ class Sessions {
 
       const session = await newSession.requestSession();
       return response.success(201, session, res);
-    } catch (e) {
-      return response.Error(500, e.message, res);
+    } catch (error) {
+      return response.catchError(500, error.message, res);
     }
   }
 
@@ -56,8 +56,8 @@ class Sessions {
         }
         return response.success(200, rejected, res);
       }
-    } catch (e) {
-      return response.catchError(500, e.message, res);
+    } catch (error) {
+      return response.catchError(500, error.message, res);
     }
   }
 

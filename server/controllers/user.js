@@ -39,8 +39,8 @@ class Authentication {
       const token = await Token.genToken(registeredUser);
 
       return response.authsuccess(201, 'User created successfully', { token }, res);
-    } catch (e) {
-      return response.Error(500, e.message, res);
+    } catch (error) {
+      return response.Error(500, error.message, res);
     }
   }
 
@@ -57,8 +57,8 @@ class Authentication {
         return response.Error(401, 'Incorrect password Email combination', res);
       }
       if (user.length === 0) { return response.Error(404, 'Email not found, sign up to create an account', res);}
-    } catch (e) {
-      return response.Error(500, e.toString(), res);
+    } catch (error) {
+      return response.Error(500, error.toString(), res);
     }
   }
 }

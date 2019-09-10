@@ -1,9 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import Tokengen from '../helpers/tokenGen';
-import Token from './mocks/tokenMocks';
-import User from './mocks/userMocks';
+import { User, tokens } from './mocks/userMocks';
 import app from '../../app';
 
 const { expect } = chai;
@@ -12,18 +10,7 @@ dotenv.config();
 chai.should();
 chai.use(chaiHttp);
 
-let userToken;
-let mentorToken;
-let adminToken;
-
 describe('ADMIN', () => {
-  before('generate JWT', (done) => {
-    userToken = Tokengen.genToken(Token.userinfo);
-    mentorToken = Tokengen.genToken(Token.mentorinfo);
-    adminToken = Tokengen.genToken(Token.admininfo);
-    done();
-  });
-
   it('should successfully sign up a second user', (done) => {
     chai.request(app)
       .post('/api/v1/auth/signup')
@@ -41,7 +28,7 @@ describe('ADMIN', () => {
     it('Admin should successfully make user into mentor', (done) => {
       chai.request(app)
         .patch('/api/v1/user/1')
-        .set('authorization', `Bearer ${adminToken}`)
+        .set('authorization', `Bearer ${tokens.adminToken}`)
         .end((err, res) => {
           res.should.have.status(200);
           expect(res).to.be.an('object');
@@ -68,7 +55,7 @@ describe('ADMIN', () => {
     it('Admin should unsuccessfully make mentor into mentor', (done) => {
       chai.request(app)
         .patch('/api/v1/user/1')
-        .set('authorization', `Bearer ${adminToken}`)
+        .set('authorization', `Bearer ${tokens.adminToken}`)
         .end((err, res) => {
           res.should.have.status(409);
           expect(res).to.be.an('object');
@@ -81,7 +68,7 @@ describe('ADMIN', () => {
     it("Mentor should'nt successfully make user into mentor", (done) => {
       chai.request(app)
         .patch('/api/v1/user/2')
-        .set('authorization', `Bearer ${mentorToken}`)
+        .set('authorization', `Bearer ${tokens.mentorToken}`)
         .end((err, res) => {
           res.should.have.status(403);
           expect(res).to.be.an('object');
@@ -94,7 +81,7 @@ describe('ADMIN', () => {
     it("User should'nt successfully make user into mentor", (done) => {
       chai.request(app)
         .patch('/api/v1/user/2')
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', `Bearer ${tokens.userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
           expect(res).to.be.an('object');
