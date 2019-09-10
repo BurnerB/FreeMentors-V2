@@ -38,7 +38,7 @@ const createAdmin = async () => {
       bio: 'rapper, record producer, and actor who was known as one of the most-controversial and best-selling artists of the early 21st century',
       occupation: 'Musician',
       expertise: 'rapping',
-      isMentor: true,
+      isMentor: false,
       isAdmin: true,
     };
     const sqlAdmin = 'INSERT INTO users (firstname, lastname, email, password, address,bio,occupation,expertise,isMentor,isAdmin ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *;';

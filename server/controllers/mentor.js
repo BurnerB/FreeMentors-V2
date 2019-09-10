@@ -6,8 +6,8 @@ class Mentor {
   static async getAllMentors(req, res) {
     try {
       const mentors = await MentorModel.getAllMentors();
-      if (!mentors) {
-        return response.handleError(404, 'No Mentors found', res);
+      if (mentors.length === 0) {
+        return response.Error(404, 'No Mentors found', res);
       }
 
       mentors.forEach((mentor) => {
@@ -15,21 +15,7 @@ class Mentor {
       });
       return response.success(200, mentors, res);
     } catch (e) {
-      return response.catchError(500, e.toString(), res);
-    }
-  }
-
-  static async getSpecificMentors(req, res) {
-    try {
-      const { mentorId } = req.params;
-      const mentor = await MentorModel.findBy('userId', parseInt(mentorId, 10), db);
-      if (mentor.isMentor === false) {
-        return response.handleError(404, 'No Mentor with that ID found', res);
-      }
-      const { password, ...args } = mentor;
-      return response.success(200, args, res);
-    } catch (e) {
-      return response.catchError(500, e.toString(), res);
+      return response.Error(500, e.toString(), res);
     }
   }
 }

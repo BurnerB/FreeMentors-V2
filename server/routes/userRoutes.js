@@ -11,6 +11,5 @@ const router = express.Router();
 router.post('/auth/signup', [alreadyRegistered], Validations.validateSignup, Users.registerUser);
 router.post('/auth/signin', Validations.validateLogin, Users.userLogin);
 router.get('/mentors', Mentors.getAllMentors);
-router.get('/mentors/:mentorId', Mentors.getSpecificMentors);
 
 export default router;
