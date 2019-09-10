@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import Tokengen from '../helpers/tokenGen';
 import Token from './mocks/tokenMocks';
 import app from '../../app';
+import session from '../tests/mocks/sessionMocks';
 
 const { expect } = chai;
 
@@ -13,13 +14,11 @@ chai.use(chaiHttp);
 
 let userToken;
 let mentorToken;
-let adminToken;
 
 describe('MENTOR', () => {
   before('generate JWT', (done) => {
     userToken = Tokengen.genToken(Token.userinfo);
     mentorToken = Tokengen.genToken(Token.mentorinfo);
-    adminToken = Tokengen.genToken(Token.admininfo);
     done();
   });
   describe('/POST session', () => {
@@ -27,9 +26,7 @@ describe('MENTOR', () => {
       chai.request(app)
         .post('/api/v1/sessions/2')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(session.session1)
         .end((err, res) => {
           res.should.have.status(201);
           expect(res).to.be.an('object');
@@ -42,10 +39,7 @@ describe('MENTOR', () => {
       chai.request(app)
         .post('/api/v1/sessions/2')
         .set('authorization', `Bearer ${mentorToken}`)
-        .send({
-          mentorId: 1,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(session.session1)
         .end((err, res) => {
           res.should.have.status(403);
           expect(res.body.error).equals('Mentor cant access this route');
@@ -59,10 +53,7 @@ describe('MENTOR', () => {
       chai.request(app)
         .post('/api/v1/sessions/2')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          mentorId: 1,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(session.session1)
         .end((err, res) => {
           expect(res.body.error).equals('Session already requested with this mentor and is pending');
           res.should.have.status(400);
@@ -76,10 +67,7 @@ describe('MENTOR', () => {
       chai.request(app)
         .post('/api/v1/sessions/2')
         .set('authorization', ' ')
-        .send({
-          mentorId: 2,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(session.session1)
         .end((err, res) => {
           expect(res.body.error).equals('ACCESS DENIED! No token provided');
           res.should.have.status(401);
@@ -89,17 +77,15 @@ describe('MENTOR', () => {
         });
     });
 
-    it('should unsuccessfully request a session invalid id', (done) => {
+    it('should unsuccessfully request a session if mentor doesnt exist', (done) => {
       chai.request(app)
-        .post('/api/v1/sessions/2')
+        .post('/api/v1/sessions/9')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          mentorId: 'ab',
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(session.session1)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(404);
           expect(res).to.be.an('object');
+          expect(res.body.error).equals('No Mentor with that ID found');
           if (err) return done();
           done();
         });
@@ -109,9 +95,7 @@ describe('MENTOR', () => {
       chai.request(app)
         .post('/api/v1/sessions/3')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          questions: ' ',
-        })
+        .send(session.session6)
         .end((err, res) => {
           res.should.have.status(400);
           expect(res.body.error).equals('Question is a required field with a maximum number of 100 chars');
@@ -125,10 +109,7 @@ describe('MENTOR', () => {
       chai.request(app)
         .post('/api/v1/sessions/2')
         .set('authorization', `Bearer ${userToken}`)
-        .send({
-          mentorId: 2,
-          questions: 'I wanna be a dj,Help?',
-        })
+        .send(session.session1)
         .end((err, res) => {
           expect(res.body.error).equals('Session already requested with this mentor and is pending');
           res.should.have.status(400);
