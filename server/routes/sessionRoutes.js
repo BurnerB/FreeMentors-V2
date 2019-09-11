@@ -10,8 +10,8 @@ import notUser from '../middleware/notUser';
 const router = express.Router();
 
 router.post('/sessions/:mentorId', [authToken, notUser, alreadyRequested], Validations.validateSessions, Sessions.requestSession);
-router.patch('/sessions/:sessionId/accept', [authToken, Mentor], Sessions.chooseSession);
-router.patch('/sessions/:sessionId/reject', [authToken, Mentor], Sessions.chooseSession);
+router.patch('/sessions/:sessionId/accept', [authToken, Mentor], Sessions.acceptReject);
+router.patch('/sessions/:sessionId/reject', [authToken, Mentor], Sessions.acceptReject);
 router.get('/sessions', [authToken], Sessions.getallSessions);
 
 

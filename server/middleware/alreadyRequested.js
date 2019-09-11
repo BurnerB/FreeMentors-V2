@@ -6,10 +6,10 @@ const alreadyRequested = async (req, res, next) => {
   const { mentorId } = req.params;
   const { id } = req.locals;
   const obj = await SessionModel.wasRequested(id, mentorId);
-  if (!obj) {
-    return response.Error(400, 'Session already requested with this mentor and is pending', res);
+  if (obj) {
+    return response.Error(409, 'Session already requested with this mentor and is pending', res);  
   }
   return next();
-}
+};
 
 export default alreadyRequested;

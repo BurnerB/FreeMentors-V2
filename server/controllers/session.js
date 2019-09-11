@@ -2,7 +2,6 @@ import response from '../helpers/responses';
 import SessionModel from '../models/sessionModel';
 import MentorModel from '../models/usersModel';
 import decoder from '../helpers/decodeToken';
-import db from '../db/Db';
 
 
 class Sessions {
@@ -13,7 +12,7 @@ class Sessions {
       const { questions } = req.body;
       const { mentorId } = req.params;
 
-      const mentorExists = await MentorModel.findBy('id', parseInt(mentorId, 10),'users');
+      const mentorExists = await MentorModel.findBy('id', parseInt(mentorId, 10), 'users');
       if (mentorExists.length === 0) {
         return response.Error(404, 'No Mentor with that ID found', res);
       }
@@ -31,53 +30,51 @@ class Sessions {
     }
   }
 
-  static async chooseSession(req, res) {
+  static async acceptReject(req, res) {
     try {
       const { sessionId } = req.params;
       const decoded = decoder.decodeToken(req.headers.authorization);
-      const { userId } = decoded;
+      const { id } = decoded;
 
-      const sessionExist = await SessionModel.wasRequested(sessionId, userId);
-
+      const sessionExist = await SessionModel.wasRequested(sessionId, id);
       if (!sessionExist) {
-        return response.handleError(404, 'You have no requested session with that ID', res);
+        return response.Error(404, 'You have no requested session with that ID', res);
+      }
+      if (sessionExist.status !== 'pending') {
+        return response.Error(400, `Session already ${sessionExist.status}`, res);
       }
       if (/accept/.test(req.url)) {
-        const accepted = await SessionModel.acceptSession(sessionExist);
-        if (accepted[0] === false) {
-          return response.handleError(400, `Session already ${accepted[1].status}`, res);
-        }
+        const accepted = await SessionModel.acceptSession(sessionExist.id);
         return response.success(200, accepted, res);
       }
       if (/reject/.test(req.url)) {
-        const rejected = await SessionModel.rejectSession(sessionExist);
-        if (rejected[0] === false) {
-          return response.handleError(400, `Session already ${rejected[1].status}`, res);
-        }
+        const rejected = await SessionModel.rejectSession(sessionExist.id);
         return response.success(200, rejected, res);
       }
     } catch (error) {
-      return response.catchError(500, error.message, res);
+      return response.Error(500, error.message, res);
     }
   }
 
   static async getallSessions(req, res) {
     try {
       const decoded = decoder.decodeToken(req.headers.authorization);
-      const { userId, isMentor } = decoded;
+      const { id, ismentor } = decoded;
 
-      if (!isMentor) {
-        const sessions = await SessionModel.findSessions('menteeId', userId);
+      if (ismentor === false) {
+        const sessions = await SessionModel.getUserSessions(id);
         if (!sessions) {
           return response.handleError(404, 'You have no requested sessions', res);
         }
         return response.success(200, sessions, res);
       }
-      const sessions = await SessionModel.findSessions('mentorId', userId);
-      if (!sessions) {
-        return response.handleError(404, 'You have no sessions requested', res);
+      if (ismentor === true) {
+        const sessions = await SessionModel.getMentorSessions(id);
+        if (!sessions) {
+          return response.handleError(404, 'You have no sessions requested', res);
+        }
+        return response.success(200, sessions, res);
       }
-      return response.success(200, sessions, res);
     } catch (e) {
       return response.catchError(500, e.message, res);
     }

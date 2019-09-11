@@ -1,8 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
+import Tokengen from '../helpers/tokenGen';
 import { User, tokens } from './mocks/userMocks';
 import app from '../../app';
+import Token from '../helpers/tokenGen';
 
 const { expect } = chai;
 
@@ -70,9 +72,9 @@ describe('ADMIN', () => {
         .patch('/api/v1/user/2')
         .set('authorization', `Bearer ${tokens.mentorToken}`)
         .end((err, res) => {
+          expect(res.body.error).equals('ACCESS DENIED! Not an Admin');
           res.should.have.status(403);
           expect(res).to.be.an('object');
-          expect(res.body.error).equals('ACCESS DENIED! Not an Admin');
           if (err) return done();
           return done();
         });
