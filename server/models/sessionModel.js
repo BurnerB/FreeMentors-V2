@@ -10,28 +10,17 @@ class SessionModel extends BaseClass {
   }
 
   static async wasRequested(menteeId, mentorId) {
-    const sql = `SELECT * FROM sessions WHERE mentorId='${mentorId}' and menteeId='${menteeId}' and status='pending'`;
+    const sql = `SELECT * FROM sessions WHERE menteeid='${menteeId}' and mentorId='${mentorId}'`;
     const { rows } = await Db.query(sql);
-    if (rows.length !== 0) {
+    if (rows.length === 0) {
       return false;
     }
-    return true;
+    return rows[0];
   }
 
-  static async acceptSession(session) {
-    if (session.status !== 'pending') {
-      return [false, session];
-    }
-    const accepted = {
-      sessionId: session.sessionId,
-      mentorId: session.mentorId,
-      menteeId: session.menteeId,
-      questions: session.questions,
-      menteeEmail: session.menteeEmail,
-      status: 'accepted',
-    };
-    db.splice(session.sessionId - 1, 1, accepted);
-    return accepted;
+  static async acceptSession(sessionId) {
+    const { rows } = await Db.query(`UPDATE sessions SET status='accepted' WHERE id='${sessionId}' RETURNING *`);
+    return rows[0];
   }
 
   static async rejectSession(session) {

@@ -12,7 +12,7 @@ const users = `CREATE TABLE IF NOT EXISTS
     id serial PRIMARY KEY,
     firstName VARCHAR(50) NOT NULL,
     lastName VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL ,
+    email VARCHAR(50) UNIQUE NOT NULL ,
     password VARCHAR(255) NOT NULL,
     address VARCHAR(150) NOT NULL,
     bio VARCHAR(500) NOT NULL,
@@ -26,9 +26,9 @@ const sessions = `CREATE TABLE IF NOT EXISTS
   sessions(
     id serial PRIMARY KEY,
     mentorId INT NOT NULL,
-    menteeId INT NOT NULL,
+    menteeId INT REFERENCES users (id) ON DELETE CASCADE,
     questions VARCHAR(250) NOT NULL ,
-    menteeEmail VARCHAR(50) NOT NULL,
+    menteeEmail VARCHAR(250)  REFERENCES users (email) ON DELETE CASCADE,
     status VARCHAR(50) DEFAULT 'pending' NOT NULL,
     created_On TIMESTAMP DEFAULT NOW()
   )`;
@@ -62,8 +62,8 @@ const createAdmin = async () => {
 client.connect();
 
 if (process.env.NODE_ENV === 'test') {
-  client.query('DROP TABLE IF EXISTS users');
   client.query('DROP TABLE IF EXISTS sessions');
+  client.query('DROP TABLE IF EXISTS users');
   client.query(users);
   client.query(sessions);
 } else {
