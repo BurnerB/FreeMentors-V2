@@ -9,12 +9,9 @@ class SessionModel extends BaseClass {
     return rows[0];
   }
 
-  static async wasRequested(sessionId, mentorId) {
-    const sql = `SELECT * FROM sessions WHERE id='${sessionId}' and mentorId='${mentorId}'`;
+  static async wasRequested(Id, mentorId, status) {
+    const sql = `SELECT * FROM sessions WHERE menteeId='${Id}' and mentorId='${mentorId}' and status='${status}'`;
     const { rows } = await Db.query(sql);
-    if (rows.length === 0) {
-      return false;
-    }
     return rows[0];
   }
 
@@ -44,6 +41,15 @@ class SessionModel extends BaseClass {
       return false;
     }
     return rows;
+  }
+
+  static async isRequested(sessionId, mentorId) {
+    const sql = `SELECT * FROM sessions WHERE id='${sessionId}' and mentorId='${mentorId}'`;
+    const { rows } = await Db.query(sql);
+    if (rows.length === 0) {
+      return false;
+    }
+    return rows[0];
   }
 }
 export default SessionModel;

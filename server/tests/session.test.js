@@ -14,7 +14,8 @@ chai.use(chaiHttp);
 
 describe('MENTOR', () => {
   describe('/POST session', () => {
-    it('should unsuccessfully request a session without token', (done) => {
+
+    it('should unsuccessfully request a session with mentor token', (done) => {
       chai.request(app)
         .post('/api/v2/sessions/3')
         .set('authorization', ' ')
@@ -22,6 +23,18 @@ describe('MENTOR', () => {
         .end((err, res) => {
           expect(res.body.error).equals('ACCESS DENIED! No token provided');
           res.should.have.status(401);
+          expect(res).to.be.an('object');
+          if (err) return done();
+          done();
+        });
+    });
+    it('should unsuccessfully request a session without token', (done) => {
+      chai.request(app)
+        .post('/api/v2/sessions/3')
+        .set('authorization', `Bearer ${tokens.mentorToken}`)
+        .send(session.session1)
+        .end((err, res) => {
+          expect(res.body.error).equals('Mentor cant access this route')
           expect(res).to.be.an('object');
           if (err) return done();
           done();

@@ -8,10 +8,11 @@ class Sessions {
   static async requestSession(req, res) {
     try {
       const status = 'pending';
-
+          
       const { questions } = req.body;
+      
       const { mentorId } = req.params;
-
+      
       const mentorExists = await MentorModel.findBy('id', parseInt(mentorId, 10), 'users');
       if (mentorExists.length === 0) {
         return response.Error(404, 'No Mentor with that ID found', res);
@@ -36,8 +37,7 @@ class Sessions {
       const decoded = decoder.decodeToken(req.headers.authorization);
       const { id } = decoded;
 
-      const sessionExist = await SessionModel.wasRequested(sessionId, id);
-      console.log(!sessionExist);
+      const sessionExist = await SessionModel.isRequested(sessionId, id);
       if (!sessionExist) {
         return response.Error(404, 'You have no requested session with that ID', res);
       }
@@ -61,11 +61,10 @@ class Sessions {
     try {
       const decoded = decoder.decodeToken(req.headers.authorization);
       const { id, ismentor } = decoded;
-
       if (ismentor === false) {
         const sessions = await SessionModel.getUserSessions(id);
         if (!sessions) {
-          return response.Error(404, 'You have no requested sessions', res);
+          return response.Error(404, 'You have not requested any sessions', res);
         }
         return response.success(200, sessions, res);
       }
