@@ -12,6 +12,8 @@ class Mentor {
 
       mentors.forEach((mentor) => {
         delete mentor.password;
+        delete mentor.ismentor;
+        delete mentor.isadmin;
       });
       return response.success(200, mentors, res);
     } catch (error) {
@@ -26,7 +28,9 @@ class Mentor {
       if (mentor.length === 0) {
         return response.Error(404, 'No Mentor with that ID found', res);
       }
-      const { password, ...noA } = mentor[0];
+      const {
+        password, ismentor, isadmin, ...noA
+      } = mentor[0];
       return response.success(200, noA, res);
     } catch (error) {
       return response.Error(500, error.toString(), res);

@@ -28,10 +28,13 @@ app.get('/', (req, res) => {
 });
 
 
-app.use((req, res) => response.Error(405 ,'Method not allowed',res));
-
 app.use((req, res) => response.Error(405, 'Method not allowed', res));
 
+app.use((req, res) => {
+  if (!req.is('*/json')) {
+    return response.handleError(404, 'Not valid Json request', res);
+  }
+});
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(port, () => console.log(`Listening on port ${port}...`));
