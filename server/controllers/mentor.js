@@ -28,6 +28,9 @@ class Mentor {
       if (mentor.length === 0) {
         return response.Error(404, 'No Mentor with that ID found', res);
       }
+      if (mentor[0].ismentor === false ) {
+        return response.Error(404, 'No Mentor with that ID found', res);
+      }
       const {
         password, ismentor, isadmin, ...noA
       } = mentor[0];

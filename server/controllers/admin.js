@@ -10,13 +10,13 @@ class Admin {
 
       const user = await AdminModel.findBy('id', parseInt(userId, 10), 'users');
       if (user[0].length === 0) {
-        return response.handleError(404, 'User with that Id not found', res);
+        return response.Error(404, 'User with that Id not found', res);
       }
       const nowMentor = await AdminModel.makeMentor(user[0].id);
       const { ismentor } = nowMentor[0];
       return response.authsuccess(200, 'User account changed to mentor', { ismentor }, res);
     } catch (error) {
-      return response.Error(500, v.toString(), res);
+      return response.Error(500, error.toString(), res);
     }
   }
 }
