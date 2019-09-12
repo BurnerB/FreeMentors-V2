@@ -37,6 +37,7 @@ class Sessions {
       const { id } = decoded;
 
       const sessionExist = await SessionModel.wasRequested(sessionId, id);
+      console.log(!sessionExist);
       if (!sessionExist) {
         return response.Error(404, 'You have no requested session with that ID', res);
       }
@@ -64,19 +65,19 @@ class Sessions {
       if (ismentor === false) {
         const sessions = await SessionModel.getUserSessions(id);
         if (!sessions) {
-          return response.handleError(404, 'You have no requested sessions', res);
+          return response.Error(404, 'You have no requested sessions', res);
         }
         return response.success(200, sessions, res);
       }
       if (ismentor === true) {
         const sessions = await SessionModel.getMentorSessions(id);
         if (!sessions) {
-          return response.handleError(404, 'You have no sessions requested', res);
+          return response.Error(404, 'You have no sessions requested', res);
         }
         return response.success(200, sessions, res);
       }
     } catch (e) {
-      return response.catchError(500, e.message, res);
+      return response.Error(500, e.message, res);
     }
   }
 }

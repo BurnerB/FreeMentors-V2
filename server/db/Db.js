@@ -19,7 +19,8 @@ const users = `CREATE TABLE IF NOT EXISTS
     occupation VARCHAR(500) NOT NULL,
     expertise VARCHAR(500) NOT NULL,
     isMentor BOOL DEFAULT false NOT NULL,
-    isAdmin BOOL DEFAULT false NOT NULL
+    isAdmin BOOL DEFAULT false NOT NULL,
+    created_On TIMESTAMP DEFAULT NOW()
   )`;
 const sessions = `CREATE TABLE IF NOT EXISTS
   sessions(
@@ -28,7 +29,8 @@ const sessions = `CREATE TABLE IF NOT EXISTS
     menteeId INT REFERENCES users (id) ON DELETE CASCADE,
     questions VARCHAR(250) NOT NULL ,
     menteeEmail VARCHAR(250)  REFERENCES users (email) ON DELETE CASCADE,
-    status VARCHAR(50) DEFAULT 'pending' NOT NULL
+    status VARCHAR(50) DEFAULT 'pending' NOT NULL,
+    created_On TIMESTAMP DEFAULT NOW()
   )`;
 
 const createAdmin = async () => {

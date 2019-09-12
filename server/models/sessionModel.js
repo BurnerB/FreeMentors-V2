@@ -9,8 +9,8 @@ class SessionModel extends BaseClass {
     return rows[0];
   }
 
-  static async wasRequested(menteeId, mentorId) {
-    const sql = `SELECT * FROM sessions WHERE menteeid='${menteeId}' and mentorId='${mentorId}'`;
+  static async wasRequested(sessionId, mentorId) {
+    const sql = `SELECT * FROM sessions WHERE id='${sessionId}' and mentorId='${mentorId}'`;
     const { rows } = await Db.query(sql);
     if (rows.length === 0) {
       return false;
@@ -23,28 +23,27 @@ class SessionModel extends BaseClass {
     return rows[0];
   }
 
-  static async rejectSession(session) {
-    if (session.status !== 'pending') {
-      return [false, session];
-    }
-    const rejected = {
-      sessionId: session.sessionId,
-      mentorId: session.mentorId,
-      menteeId: session.menteeId,
-      questions: session.questions,
-      menteeEmail: session.menteeEmail,
-      status: 'rejected',
-    };
-    db.splice(session.sessionId - 1, 1, rejected);
-    return rejected;
+  static async rejectSession(sessionId) {
+    const { rows } = await Db.query(`UPDATE sessions SET status='rejected' WHERE id='${sessionId}' RETURNING *`);
+    return rows[0];
   }
 
-  static async findSessions(key, value) {
-    const obj = db.filter((o) => o[key] === parseInt(value, 10));
-    if (obj) {
-      return obj;
+  static async getUserSessions(menteeId) {
+    const sql = `SELECT * FROM sessions WHERE menteeid='${menteeId}'`;
+    const { rows } = await Db.query(sql);
+    if (rows.length === 0) {
+      return false;
     }
-    return false;
+    return rows[0];
+  }
+
+  static async getMentorSessions(mentorId) {
+    const sql = `SELECT * FROM sessions WHERE mentorid='${mentorId}'`;
+    const { rows } = await Db.query(sql);
+    if (rows.length === 0) {
+      return false;
+    }
+    return rows;
   }
 }
 export default SessionModel;
