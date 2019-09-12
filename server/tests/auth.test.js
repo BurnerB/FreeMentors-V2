@@ -27,7 +27,7 @@ describe('AUTH', () => {
   describe('/post signup', () => {
     it('should successfully sign up a user', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user)
         .end((err, res) => {
           res.should.have.status(201);
@@ -39,7 +39,7 @@ describe('AUTH', () => {
     });
     it('should unsuccessfully sign up a user twice', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user)
         .end((err, res) => {
           res.should.have.status(409);
@@ -52,7 +52,7 @@ describe('AUTH', () => {
 
     it('should check if the email has already been used to register', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user)
         .end((err, res) => {
           res.should.have.status(409);
@@ -66,7 +66,7 @@ describe('AUTH', () => {
 
     it('should check if the email is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user2)
         .end((err, res) => {
           res.should.have.status(400);
@@ -80,7 +80,7 @@ describe('AUTH', () => {
 
     it('should check if the firstname is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user3)
         .end((err, res) => {
           res.should.have.status(400);
@@ -94,7 +94,7 @@ describe('AUTH', () => {
 
     it('should check if the lastname is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user4)
         .end((err, res) => {
           res.should.have.status(400);
@@ -108,7 +108,7 @@ describe('AUTH', () => {
 
     it('should check if the password is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user5)
         .end((err, res) => {
           res.should.have.status(400);
@@ -122,7 +122,7 @@ describe('AUTH', () => {
 
     it('should check if the address is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user6)
         .end((err, res) => {
           res.should.have.status(400);
@@ -136,7 +136,7 @@ describe('AUTH', () => {
 
     it('should check if the bio is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user7)
         .end((err, res) => {
           res.should.have.status(400);
@@ -150,7 +150,7 @@ describe('AUTH', () => {
 
     it('should check if occupation is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user8)
         .end((err, res) => {
           res.should.have.status(400);
@@ -164,7 +164,7 @@ describe('AUTH', () => {
 
     it('should check expertice is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send(User.user9)
         .end((err, res) => {
           res.should.have.status(400);
@@ -180,7 +180,7 @@ describe('AUTH', () => {
   describe('/post login', () => {
     it('should successfully login user', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send(User.user10)
         .end((err, res) => {
           res.should.have.status(200);
@@ -193,7 +193,7 @@ describe('AUTH', () => {
 
     it('should not login user without email', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send(User.user11)
         .end((err, res) => {
           res.should.have.status(400);
@@ -205,7 +205,7 @@ describe('AUTH', () => {
 
     it('should not login user without password', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send(User.user12)
         .end((err, res) => {
           res.should.have.status(400);
@@ -217,7 +217,7 @@ describe('AUTH', () => {
 
     it('should not login user with mismatch password', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send(User.user13)
         .end((err, res) => {
           res.should.have.status(401);
@@ -229,7 +229,7 @@ describe('AUTH', () => {
 
     it('should not login user not registered', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send(User.user14)
         .end((err, res) => {
           res.should.have.status(404);
@@ -241,7 +241,7 @@ describe('AUTH', () => {
 
     it('should check if email is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send(User.user15)
         .end((err, res) => {
           res.should.have.status(400);
@@ -253,7 +253,7 @@ describe('AUTH', () => {
 
     it('should check if password is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send(User.user16)
         .end((err, res) => {
           res.should.have.status(400);

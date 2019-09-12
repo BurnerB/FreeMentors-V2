@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 describe('ADMIN', () => {
   it('should successfully sign up a second user', (done) => {
     chai.request(app)
-      .post('/api/v1/auth/signup')
+      .post('/api/v2/auth/signup')
       .send(User.user0)
       .end((err, res) => {
         res.should.have.status(201);
@@ -29,7 +29,7 @@ describe('ADMIN', () => {
   describe('/patch user to mentor', () => {
     it('Admin should successfully make user into mentor', (done) => {
       chai.request(app)
-        .patch('/api/v1/user/1')
+        .patch('/api/v2/user/1')
         .set('authorization', `Bearer ${tokens.adminToken}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -41,9 +41,22 @@ describe('ADMIN', () => {
         });
     });
 
+    it('Admin should usuccessfully make user into mentor with expired token', (done) => {
+      chai.request(app)
+        .patch('/api/v2/user/1')
+        .set('authorization', `Bearer ${tokens.expiredToken}`)
+        .end((err, res) => {
+          res.should.have.status(500);
+          expect(res).to.be.an('object');
+          expect(res.body.error).equals('TokenExpiredError: jwt expired');
+          if (err) return done();
+          return done();
+        });
+    });
+
     it('Admin should usuccessfully make user into mentor with malformed token', (done) => {
       chai.request(app)
-        .patch('/api/v1/user/1')
+        .patch('/api/v2/user/1')
         .set('authorization', 'Bearer ujufhjfojifijijn')
         .end((err, res) => {
           res.should.have.status(500);
@@ -56,7 +69,7 @@ describe('ADMIN', () => {
 
     it('Admin should unsuccessfully make mentor into mentor', (done) => {
       chai.request(app)
-        .patch('/api/v1/user/1')
+        .patch('/api/v2/user/1')
         .set('authorization', `Bearer ${tokens.adminToken}`)
         .end((err, res) => {
           res.should.have.status(409);
@@ -69,7 +82,7 @@ describe('ADMIN', () => {
 
     it("Mentor should'nt successfully make user into mentor", (done) => {
       chai.request(app)
-        .patch('/api/v1/user/2')
+        .patch('/api/v2/user/2')
         .set('authorization', `Bearer ${tokens.mentorToken}`)
         .end((err, res) => {
           expect(res.body.error).equals('ACCESS DENIED! Not an Admin');
@@ -82,7 +95,7 @@ describe('ADMIN', () => {
 
     it("User should'nt successfully make user into mentor", (done) => {
       chai.request(app)
-        .patch('/api/v1/user/2')
+        .patch('/api/v2/user/2')
         .set('authorization', `Bearer ${tokens.userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
@@ -95,7 +108,7 @@ describe('ADMIN', () => {
 
     it('Token is required make user into mentor', (done) => {
       chai.request(app)
-        .patch('/api/v1/user/2')
+        .patch('/api/v2/user/2')
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
@@ -108,7 +121,7 @@ describe('ADMIN', () => {
 
     it('Token is required make user into mentor', (done) => {
       chai.request(app)
-        .patch('/api/v1/user/1')
+        .patch('/api/v2/user/1')
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);

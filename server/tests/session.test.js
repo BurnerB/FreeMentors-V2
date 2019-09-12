@@ -14,50 +14,9 @@ chai.use(chaiHttp);
 
 describe('MENTOR', () => {
   describe('/POST session', () => {
-    it('should successfully request a session', (done) => {
-      chai.request(app)
-        .post('/api/v1/sessions/1')
-        .set('authorization', `Bearer ${tokens.userToken}`)
-        .send(session.session1)
-        .end((err, res) => {
-          res.should.have.status(201);
-          expect(res).to.be.an('object');
-          if (err) return done();
-          return done();
-        });
-    });
-
-    it('should Usuccessfully request a session with mentor token', (done) => {
-      chai.request(app)
-        .post('/api/v1/sessions/3')
-        .set('authorization', `Bearer ${tokens.mentorToken}`)
-        .send(session.session1)
-        .end((err, res) => {
-          res.should.have.status(403);
-          expect(res.body.error).equals('Mentor cant access this route');
-          expect(res).to.be.an('object');
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should usuccessfully request a session already requested', (done) => {
-      chai.request(app)
-        .post('/api/v1/sessions/1')
-        .set('authorization', `Bearer ${tokens.userToken}`)
-        .send(session.session1)
-        .end((err, res) => {
-          res.should.have.status(409);
-          expect(res.body.error).equals('Session already requested with this mentor and is pending');
-          expect(res).to.be.an('object');
-          if (err) return done();
-          return done();
-        });
-    });
-
     it('should unsuccessfully request a session without token', (done) => {
       chai.request(app)
-        .post('/api/v1/sessions/3')
+        .post('/api/v2/sessions/3')
         .set('authorization', ' ')
         .send(session.session1)
         .end((err, res) => {
@@ -71,7 +30,7 @@ describe('MENTOR', () => {
 
     it('should unsuccessfully request a session if mentor doesnt exist', (done) => {
       chai.request(app)
-        .post('/api/v1/sessions/9')
+        .post('/api/v2/sessions/9')
         .set('authorization', `Bearer ${tokens.userToken}`)
         .send(session.session1)
         .end((err, res) => {
@@ -85,7 +44,7 @@ describe('MENTOR', () => {
 
     it('should unsuccessfully request a session invalid questions', (done) => {
       chai.request(app)
-        .post('/api/v1/sessions/3')
+        .post('/api/v2/sessions/1')
         .set('authorization', `Bearer ${tokens.userToken}`)
         .send(session.session6)
         .end((err, res) => {
@@ -100,7 +59,7 @@ describe('MENTOR', () => {
     describe('PATCH accept session', () => {
       it('should unsuccessfully accept a session if token is user', (done) => {
         chai.request(app)
-          .patch('/api/v1/sessions/2/accept')
+          .patch('/api/v2/sessions/2/accept')
           .set('authorization', `Bearer ${tokens.userToken}`)
           .end((err, res) => {
             res.should.have.status(403);
@@ -113,7 +72,7 @@ describe('MENTOR', () => {
 
       it('should unsuccessfully accept a session if no token provided', (done) => {
         chai.request(app)
-          .patch('/api/v1/sessions/2/accept')
+          .patch('/api/v2/sessions/2/accept')
           .set('authorization', ' ')
           .end((err, res) => {
             res.should.have.status(401);
@@ -127,7 +86,7 @@ describe('MENTOR', () => {
     describe('PATCH reject session', () => {
       it("shouldn't reject a session already accepted", (done) => {
         chai.request(app)
-          .patch('/api/v1/sessions/2/reject')
+          .patch('/api/v2/sessions/2/reject')
           .set('authorization', `Bearer ${tokens.mentorToken}`)
           .end((err, res) => {
             // res.should.have.status(400);
@@ -140,7 +99,7 @@ describe('MENTOR', () => {
 
       it('should unsuccessfully reject a session if token is user', (done) => {
         chai.request(app)
-          .patch('/api/v1/sessions/1/accept')
+          .patch('/api/v2/sessions/1/accept')
           .set('authorization', `Bearer ${tokens.userToken}`)
           .end((err, res) => {
             res.should.have.status(403);
@@ -153,7 +112,7 @@ describe('MENTOR', () => {
 
       it('should unsuccessfully reject a session if no token provided', (done) => {
         chai.request(app)
-          .patch('/api/v1/sessions/1/accept')
+          .patch('/api/v2/sessions/1/accept')
           .set('authorization', ' ')
           .end((err, res) => {
             res.should.have.status(401);
@@ -165,7 +124,7 @@ describe('MENTOR', () => {
 
       it('should unsuccessfully accept a session if no token provided', (done) => {
         chai.request(app)
-          .get('/api/v1/sessions')
+          .get('/api/v2/sessions')
           .set('authorization', ' ')
           .end((err, res) => {
             res.should.have.status(401);

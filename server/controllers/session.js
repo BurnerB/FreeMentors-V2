@@ -26,7 +26,7 @@ class Sessions {
       const session = await newSession.requestSession();
       return response.success(201, session, res);
     } catch (error) {
-      return response.catchError(500, error.message, res);
+      return response.Error(500, error.message, res);
     }
   }
 
