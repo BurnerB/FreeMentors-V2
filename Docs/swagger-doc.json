@@ -8,7 +8,7 @@
 			"email": "barnabykamau@gmail.com"
 		}
 	},
-	"host": "https://free-mentors.herokuapp.com/",
+	"host": "free-mentors.herokuapp.com/",
 	
 	"basePath": "/api/v2",
 	"securityDefinitions": {},
