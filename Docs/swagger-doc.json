@@ -2,14 +2,15 @@
 	"swagger": "2.0",
 	"info": {
 		"version": "2.0",
-		"title": "FreeMentors V1",
+		"title": "FreeMentors v2",
 		"description": "Free Mentors where professionals become role models to young people to provide free mentorship sessions.",
 		"contact": {
 			"email": "barnabykamau@gmail.com"
 		}
 	},
-	"host": "free-mentors.herokuapp.com",
-	"basePath": "/api/v1",
+	"host": "https://free-mentors.herokuapp.com/",
+	
+	"basePath": "/api/v2",
 	"securityDefinitions": {},
 	"schemes": [
 		"https"
@@ -26,7 +27,7 @@
 				"description": "",
 				"summary": "signup",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "SignupPost",
 				"deprecated": false,
@@ -103,7 +104,7 @@
 				"description": "",
 				"summary": "Signin",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "LoginPost",
 				"deprecated": false,
@@ -144,7 +145,7 @@
 				"description": "",
 				"summary": "Change a user to a mentor.",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "Admin make user mentor",
 				"deprecated": false,
@@ -181,7 +182,7 @@
 				"description": "",
 				"summary": "Admin get all mentors",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "mentors",
 				"deprecated": false,
@@ -215,7 +216,7 @@
 				"description": "",
 				"summary": "Admin get specific mentor",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "specific mentor",
 				"deprecated": false,
@@ -249,7 +250,7 @@
 				"description": "",
 				"summary": "User can Create a mentorship session request.",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "session request",
 				"deprecated": false,
@@ -294,7 +295,7 @@
 				"description": "",
 				"summary": "Get all sessions.",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "get all sessions",
 				"deprecated": false,
@@ -328,7 +329,7 @@
 				"description": "",
 				"summary": "A mentor can accept a mentorship session request.",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "accept request",
 				"deprecated": false,
@@ -362,7 +363,7 @@
 				"description": "",
 				"summary": "A mentor can decline a mentorship session request.",
 				"tags": [
-					"Free Mentors V1"
+					"Free Mentors v2"
 				],
 				"operationId": "decline request",
 				"deprecated": false,

@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({
   extended: true,
 }));
 routes(app);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(cors());
 
 app.get('/', (req, res) => {
@@ -36,7 +39,7 @@ app.use((req, res) => {
   }
 });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
 export default app;
