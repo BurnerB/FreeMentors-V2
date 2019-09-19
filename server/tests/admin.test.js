@@ -1,10 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import Tokengen from '../helpers/tokenGen';
 import { User, tokens } from './mocks/userMocks';
 import app from '../../app';
-import Token from '../helpers/tokenGen';
 
 const { expect } = chai;
 
